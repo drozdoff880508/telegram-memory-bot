@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.pcmag.com/news/openai-to-clamp-down-on-access-for-users-in-china-unsupported-regions",
+    "name": "OpenAI to Clamp Down on Access for Users in China, Unsupported",
+    "snippet": "OpenAI is preparing to restrict access to its API to stop people in China, Russia, and Iran from using its chatbot tech.",
+    "host_name": "www.pcmag.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ltesocks.io/blog/proxies-and-openai-how-to-access-the-chatgpt-api-via-a-proxy",
+    "name": "Proxies and ChatGPT API: how to bypass OpenAI blocking in your",
+    "snippet": "Learn how to bypass OpenAI's block and use ChatGPT via a proxy. Instructions for setup, IP selection, and connection verification.",
+    "host_name": "ltesocks.io",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.n8n.io/t/add-option-to-use-proxy-for-openai-got-created/42296",
+    "name": "Add option to use proxy for Openai [GOT CREATED] - n8n Community",
+    "snippet": "A proxy can help if you have access issues or need to bypass restrictions in your region. It acts as a middleman between you and OpenAI's ...",
+    "host_name": "community.n8n.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.laozhang.ai/en/posts/chatgpt-unblocked",
+    "name": "ChatGPT Unblocked: 7 Working Methods for School  - LaoZhang AI",
+    "snippet": "This comprehensive 2026 guide covers 7 proven methods to unblock ChatGPT at school, work, or in geo-restricted countries. From free solutions ...",
+    "host_name": "blog.laozhang.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.openai.com/t/is-it-legal-to-host-a-proxy-of-openai-api-that-allows-third-parties-to-use-openai-api-without-providing-their-own-api-key/299854",
+    "name": "Is it legal to host a proxy of OpenAI API that allows third parties to",
+    "snippet": "Utilizing the API keys to access services beyond their intended use or in ways that violate the terms of service would be a violation.",
+    "host_name": "community.openai.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.bankinfosecurity.com/openai-drops-chatgpt-access-for-users-in-china-russia-iran-a-25631",
+    "name": "OpenAI Drops ChatGPT Access for Users in China, Russia, Iran",
+    "snippet": "OpenAI appears to be removing access to its services for users in China, Russia and Iran in the next two weeks. The company did not explain its decision, ...",
+    "host_name": "www.bankinfosecurity.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.metacto.com/blogs/openai-api-alternatives-a-2025-guide-to-top-competitors",
+    "name": "OpenAI API Alternatives: Top Competitors in 2026 - Metacto",
+    "snippet": "Compare the best OpenAI API alternatives in 2026: Anthropic Claude, Gemini, DeepSeek, Mistral, Llama 4, and more. Pricing, benchmarks, and use cases.",
+    "host_name": "www.metacto.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/PawanOsman/ChatGPT",
+    "name": "PawanOsman/ChatGPT: OpenAI API Free Reverse Proxy - GitHub",
+    "snippet": "Welcome to the ChatGPT API Free Reverse Proxy, offering free self-hosted API access to ChatGPT ( gpt-3.5-turbo ) with OpenAI's familiar structure.",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://proxycove.com/en/blog/kak-oboyti-blokirovku-openai-api-po-ip-adresu",
+    "name": "How to Bypass OpenAI API IP Address Restrictions - ProxyCove",
+    "snippet": "The most reliable and straightforward method to bypass geo-blocking is by using datacenter proxies. This allows you to route all requests to ...",
+    "host_name": "proxycove.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.yottalabs.ai/post/best-openai-api-alternatives-in-2026-free-open-source-and-multi-model-options",
+    "name": "OpenAI API Alternatives: Claude, Gemini & Open-Source Models",
+    "snippet": "Best OpenAI API Alternatives in 2026 · Anthropic · Google (Gemini) · Open-Source Models (Llama, Mistral, etc.) · Aggregated APIs.",
+    "host_name": "www.yottalabs.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

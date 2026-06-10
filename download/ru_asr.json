@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://habr.com/ru/articles/993786",
+    "name": "Обзор лучших API для распознавания речи 2026 - Habr",
+    "snippet": "Gladia (Solaria-1 модель) - говорят, что смогли натренировать Whisper и лишить его всех галлюцинаций, не потеряв в качестве. У них самая ...",
+    "host_name": "habr.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=xKVsupliks8",
+    "name": "Top Transcription / ASR Models in 2026 - YouTube",
+    "snippet": "... API configuration 8:34 Training recommendations by model size and hardware 8:51 Omni ASR 7b multilingual model supporting 1600 languages 9 ...",
+    "host_name": "www.youtube.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.gladia.io/blog/best-whisper-alternatives-2026",
+    "name": "Best Whisper alternatives for 2026: Comparison of top speech-to",
+    "snippet": "Compare top Whisper alternatives for 2026: Gladia, Deepgram, AssemblyAI on accuracy, latency, cost and multilingual support.",
+    "host_name": "www.gladia.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://usevoicy.com/blog/best-speech-to-text-api",
+    "name": "Best Speech to Text APIs for Developers in 2026 - Voicy",
+    "snippet": "1. OpenAI Whisper API. OpenAI's Whisper API consistently ranks as the most accurate speech recognition model. It excels at handling noise, ...",
+    "host_name": "usevoicy.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepgram.com/learn/best-speech-to-text-apis-2026",
+    "name": "Best Speech-to-Text APIs in 2026: A Comprehensive Comparison",
+    "snippet": "This article compares the leading speech-to-text APIs, ranking them based on accuracy, features, and real-world performance.",
+    "host_name": "deepgram.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://web.itranscribe.co/blog/best-whisper-alternative",
+    "name": "Best Whisper Alternative 2026: No Coding Required & Better Accuracy",
+    "snippet": "Whisper requires coding setup — iTranscribe gives you accurate transcripts with timestamps, speaker labels & export in minutes.",
+    "host_name": "web.itranscribe.co",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://voicewriter.io/blog/best-speech-recognition-api-2025",
+    "name": "The Best Speech Recognition API in 2025 - Voice Writer",
+    "snippet": "Whisper, Assembly AI, and AWS Transcribe performed better, showing strong resilience to noise; on the other hand, Microsoft and Google Cloud ASR ...",
+    "host_name": "voicewriter.io",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.g2.com/products/whisper-api/competitors/alternatives",
+    "name": "Top 10 Whisper-Api Alternatives & Competitors in 2026 - G2",
+    "snippet": "The best Whisper-Api alternatives are Krisp, Rev, and Otter.ai. Find top-ranking free & paid apps similar to Whisper-Api for your Voice Recognition Software ...",
+    "host_name": "www.g2.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.fingoweb.com/blog/top-6-speech-to-text-ai-solutions-in-2026",
+    "name": "Top 6 speech to text AI solutions in 2026 - Fingoweb",
+    "snippet": "For pure transcription tasks, Whisper remains lightweight and cost-effective. But for businesses that need speech-to-text plus context awareness ...",
+    "host_name": "www.fingoweb.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/speechtech/comments/1kd9abp/i_benchmarked_12_speechtotext_apis_under_various/?tl=ru",
+    "name": "Я протестировал 12+ API для преобразования речи в текст в",
+    "snippet": "TLDR, если вы не хотите переходить по ссылке: лучшей моделью на данный момент, похоже, является GPT-4o-transcribe, за ней следуют Eleven Labs, ...",
+    "host_name": "www.reddit.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
