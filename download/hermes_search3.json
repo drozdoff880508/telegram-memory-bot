@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://hermes-agent.nousresearch.com",
+    "name": "Hermes Agent — The Agent That Grows With You | Nous Research",
+    "snippet": "An open-source agent that grows with you — learns your projects, builds its own skills, and reaches you wherever you are. By Nous Research.",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tencentcloud.com/techpedia/144032",
+    "name": "The Best Open Source AI Agents in 2026: A Developer's Honest",
+    "snippet": "Learn which agent fits your use case, how to evaluate them, and why Hermes Agent's self-learning architecture stands out for long-term deployment. Target ...",
+    "host_name": "www.tencentcloud.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/nousresearch/hermes-agent",
+    "name": "NousResearch/hermes-agent: The agent that grows with you - GitHub",
+    "snippet": "The self-improving AI agent built by Nous Research. It's the only agent with a built-in learning loop — it creates skills from experience, ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "Jun 9, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://blogs.nvidia.com/blog/rtx-ai-garage-hermes-agent-dgx-spark",
+    "name": "Hermes Unlocks Self-Improving AI Agents, Powered by NVIDIA RTX",
+    "snippet": "Agents like Hermes are built to run continuously — responding to requests, planning multistep tasks, executing autonomously and self-improving.",
+    "host_name": "blogs.nvidia.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.org",
+    "name": "Hermes Agent — Open-Source AI Agent with Persistent Memory",
+    "snippet": "Hermes Agent is an open-source autonomous AI agent built by Nous Research and released in February 2026. It's not a coding copilot tethered to an IDE or a ...",
+    "host_name": "hermes-agent.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://petronellatech.com/blog/hermes-agent-ai-guide",
+    "name": "Hermes Agent AI 2026: Self-Hosted AI Agent Stack Guide",
+    "snippet": "Hermes Agent is an open-source, self-hosted AI agent framework. 2026 guide to architecture, install, MCP tools, local LLMs, ...",
+    "host_name": "petronellatech.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/hermesagent/comments/1t6gf4j/megathread_hermes_agent_use_cases_what_the",
+    "name": "Hermes Agent Use Cases — What the Community is Building (May",
+    "snippet": "A community-sourced compilation of real-world Hermes Agent use cases, pulled from Reddit, X/Twitter, GitHub (issues, PRs, community repos), ...",
+    "host_name": "www.reddit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.vellum.ai/blog/best-hermes-agent-alternatives",
+    "name": "10 Best Hermes Agent Alternatives in 2026 - Vellum",
+    "snippet": "Hermes Agent is a self-improving open-source AI agent from Nous Research, built to run on a server and driven through a terminal.",
+    "host_name": "www.vellum.ai",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://kisztof.medium.com/hermes-agent-review-nous-researchs-self-improving-ai-agent-e72bc244435a",
+    "name": "Hermes Agent: the first AI agent that keeps what it learns",
+    "snippet": "This is the memory problem that every agent framework in 2024 and 2025 was supposed to solve, and none of them did. Most shipped a vector ...",
+    "host_name": "kisztof.medium.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.nousresearch.com/docs",
+    "name": "Hermes Agent Documentation",
+    "snippet": "The self-improving AI agent built by Nous Research. The only agent with a built-in learning loop — it creates skills from experience, improves them during use, ...",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://hermes-agent.nousresearch.com/docs",
+    "name": "Hermes Agent Documentation",
+    "snippet": "The self-improving AI agent built by Nous Research. The only agent with a built-in learning loop — it creates skills from experience, improves them during use, ...",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/nousresearch/hermes-agent",
+    "name": "NousResearch/hermes-agent: The agent that grows with you - GitHub",
+    "snippet": "The self-improving AI agent built by Nous Research. It's the only agent with a built-in learning loop — it creates skills from experience, ...",
+    "host_name": "github.com",
+    "rank": 1,
+    "date": "Jun 9, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.nousresearch.com",
+    "name": "Hermes Agent — The Agent That Grows With You | Nous Research",
+    "snippet": "An open-source agent that grows with you — learns your projects, builds its own skills, and reaches you wherever you are. By Nous Research.",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/LocalLLM/comments/1t47ec0/has_anyone_here_explored_hermes_agent_by_nous/?tl=ru",
+    "name": "Кто-нибудь здесь пробовал Hermes Agent от Nous Research?",
+    "snippet": "Работает непрерывно (например, на сервере или VPS), а не по сессиям. Интегрируется с разными платформами, такими как Slack, Telegram, CLI и т.д.",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.heyuan110.com/posts/ai/2026-04-14-hermes-agent-guide",
+    "name": "Hermes Agent v0.9 Review (April 2026): Nous Research Setup, Best",
+    "snippet": "My take: Hermes is the first personal AI agent that ships with the harness already built in. Every other agent I have used — Claude Code, Cursor ...",
+    "host_name": "www.heyuan110.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=12Cffcjha-w&vl=en-US",
+    "name": "The People Who Train AI Built Their Own Agent - YouTube",
+    "snippet": "Nous Research released Hermes Agent, an open-source agent that doesn't just answer questions; it remembers what it learns and builds its own ...",
+    "host_name": "www.youtube.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.nousresearch.com/docs/getting-started/quickstart",
+    "name": "Quickstart | Hermes Agent - nous research",
+    "snippet": "This guide gets you from zero to a working Hermes setup that survives real use. Install, choose a provider, verify a working chat, and know exactly what to do ...",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.binance.com/ru/square/post/312090900924370",
+    "name": "Руководство по Hermes Agent: превосходя OpenClaw, увеличивая",
+    "snippet": "Hermes Agent — это самосовершенствующийся AI агент ... Nous Research, и он является единственным агентом с встроенной замкнутой системой обучения.",
+    "host_name": "www.binance.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.instagram.com/reel/DY19JxaNKES",
+    "name": "ИИ-агенты перестали быть игрушкой для программистов",
+    "snippet": "... видео разберем, как быстро установить и настроить Hermes Agent на ваш сервер. Hermes Agent — это мощный Open Source ИИ-агент от Nous Research.",
+    "host_name": "www.instagram.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pub.towardsai.net/the-ai-agent-that-actually-learns-from-you-inside-hermes-by-nous-research-fd074717a8e7",
+    "name": "The AI Agent That Actually Learns From You: Inside Hermes by",
+    "snippet": "Hermes is a self-hosted, open-source AI agent released by Nous Research under an MIT license. You install it on your own machine (or a cheap VPS) ...",
+    "host_name": "pub.towardsai.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

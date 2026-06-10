@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://hermes-agent.nousresearch.com",
+    "name": "Hermes Agent — The Agent That Grows With You | Nous Research",
+    "snippet": "An autonomous agent that lives on your server, remembers what it learns, and gets more capable the longer it runs.",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.org",
+    "name": "Hermes Agent — Open-Source AI Agent with Persistent Memory",
+    "snippet": "Beyond task automation — Hermes Agent is a platform for generating training data, running RL experiments, and exporting trajectories for fine-tuning. Batch ...",
+    "host_name": "hermes-agent.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blogs.nvidia.com/blog/rtx-ai-garage-hermes-agent-dgx-spark",
+    "name": "Hermes Unlocks Self-Improving AI Agents, Powered by NVIDIA RTX",
+    "snippet": "Hermes is an active orchestration layer, not a thin wrapper, enabling persistent, on-device agents instead of task-by-task execution.",
+    "host_name": "blogs.nvidia.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://petronellatech.com/blog/hermes-agent-ai-guide",
+    "name": "Hermes Agent AI 2026: Self-Hosted AI Agent Stack Guide",
+    "snippet": "Hermes Agent is an open-source, self-improving AI agent from Nous Research that runs on your own infrastructure, not a SaaS subscription.",
+    "host_name": "petronellatech.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/Hostinger/comments/1t644yx/what_is_hermes_agent_a_quick_intro_for_anyone",
+    "name": "What is Hermes Agent? A quick intro for anyone looking at self",
+    "snippet": "Hermes Agent is an open-source AI agent framework from Nous Research that can run 24/7 on your own server or VPS. Unlike a regular chatbot, ...",
+    "host_name": "www.reddit.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mindstudio.ai/blog/what-is-hermes-agent-openclaw-alternative",
+    "name": "What Is Hermes Agent? The OpenClaw Alternative with a Built-In",
+    "snippet": "Hermes Agent is an open-source AI agent framework that creates skills from experience, improves them during use, and builds a model of you ...",
+    "host_name": "www.mindstudio.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=RoBD7Lc-0MI",
+    "name": "Hermes Agent is the greatest AI tool ever made. Here's how to set it up",
+    "snippet": "Hermes Agent is the best AI tool out there. Here is your COMPLETE tutorial. FULL Hermes Agent bootcamp in the Vibe Coding Academy coming up: ...",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://kisztof.medium.com/hermes-agent-review-nous-researchs-self-improving-ai-agent-e72bc244435a",
+    "name": "Hermes Agent: the first AI agent that keeps what it learns",
+    "snippet": "The description that survives contact with reality is this: Hermes Agent is a Python-first, MIT-licensed agent framework that runs on top of 200 ...",
+    "host_name": "kisztof.medium.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/AISEOInsider/comments/1te1yv1/hermes_agent_framework_creates_reusable_ai",
+    "name": "Hermes Agent Framework Creates Reusable AI Workflows Fast",
+    "snippet": "Hermes Agent Framework is useful because it gives you a simple way to turn one repetitive task into an AI agent workflow.",
+    "host_name": "www.reddit.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.nousresearch.com/docs",
+    "name": "Hermes Agent Documentation | Hermes Agent",
+    "snippet": "The self-improving AI agent built by Nous Research. The only agent with a built-in learning loop — it creates skills from experience, improves them during use, nudges itself to persist knowledge, and builds a deepening model of who you are across sessions.",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
