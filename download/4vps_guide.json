@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://4vps.su/page/api",
+    "name": "Простая интеграция, доступный API - 4VPS.SU",
+    "snippet": "Инструкция по настройке интеграции с биллингом RootPanel https://rootpanel ... Метод позволяет создать новый сервер. Метод отправки: POST. URL: https ...",
+    "host_name": "4vps.su",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://wiki.4vps.su",
+    "name": "База знаний | 4vps.su: О нас",
+    "snippet": "FourServer также предлагает дополнительные услуги: серверы с GPU, защиту от DDoS атак, возможность регистрации доменов, аренду сетей ipv4 или ...",
+    "host_name": "wiki.4vps.su",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gist.github.com/uaa63831/f2a563e85cc31a2ebab086a2561ca111",
+    "name": "4VPS.SU — дешёвый VPS с 35+ локациями, NVMe-дисками и",
+    "snippet": "Что такое 4VPS и чем они занимаются · Виртуальные серверы (VPS/VDS) — главный продукт. · Выделенные серверы — от 1 500 руб./мес., несколько готовых конфигураций.",
+    "host_name": "gist.github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=KO_78PNljhs",
+    "name": "VPS сервер за 5 минут: как запустить свой виртуальный сервер",
+    "snippet": "Как настроить свой VPS сервер — пошаговая инструкция: VPS сервер на ... создать свой сайт»: https://bykovs.ru/createsite-start Мой ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pro-hosting.biz/providers/4vps_su.html",
+    "name": "4VPS·SU - Pro HOSTING",
+    "snippet": "... Инструкции · Глоссарий. —Pro HOSTING—Провайдеры—4VPS·SU. 4VPS·SU. 4VPS·SU. Сайт провайдера. 4vps.su. 20% скидка на первый заказ при регистрации по ссылке ...",
+    "host_name": "pro-hosting.biz",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://4vps.su/page/terms",
+    "name": "Условия использования - 4VPS.SU",
+    "snippet": "Пользовательское соглашение содержит рекомендации и правила по использованию сервисов 4VPS и является обязательным для всех клиентов компании.",
+    "host_name": "4vps.su",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ru.hostings.info/4vps-su.html",
+    "name": "4vps Отзывы, Обзор, Тарифы, Контакты - Hostings.info",
+    "snippet": "4vps.su специализируется на аренде виртуальных и выделенных серверов. Особенность компании в наличии множества способов оплаты. Тарифы. Внимание! Некоторые ...",
+    "host_name": "ru.hostings.info",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vk.com/fourvps",
+    "name": "4VPS.SU - Хостинг-Провайдер. - ВКонтакте",
+    "snippet": "Наша удобная панель управления сервером обеспечивает простоту в использовании и эффективность в управлении вашим сервером. ... Прямо сейчас пожалуйста создайте ...",
+    "host_name": "vk.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://wiki.4vps.su/chastye-voprosy-linux/kak-podklyuchitsya-k-serveru",
+    "name": "Как подключиться к серверу - База знаний | 4vps.su",
+    "snippet": "Для подключения к серверу Linux вы можете использовать любой SSH-клиент. Вот пошаговый процесс, который поможет вам подключиться к ...",
+    "host_name": "wiki.4vps.su",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.4vps.su",
+    "name": "4VPS.SU: Надежный хостинг-провайдер",
+    "snippet": "Выделенные сервера от 1500 руб. Большое кол-во конфигураций серверов, UPtime 99,9%, OC Windows/Linux · Хостинг сайтов от 90 руб. · Регистрация доменов от 87 руб.",
+    "host_name": "www.4vps.su",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
