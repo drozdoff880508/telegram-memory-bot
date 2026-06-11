@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// === Telegram User ===
+model TgUser {
+  id            String    @id @default(cuid())
+  telegramId    Int       @unique
+  firstName     String?
+  lastName      String?
+  username      String?
+  languageCode  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  messages      Message[]
+  reminders     Reminder[]
+  shoppingItems ShoppingItem[]
+  notes         Note[]
+  context       UserContext?
+}
+
+// === Chat Messages ===
+model Message {
+  id          String   @id @default(cuid())
+  userId      String
+  role        String   // "user" | "assistant" | "system"
+  content     String
+  messageType String   @default("text") // "text" | "voice" | "image" | "command"
+  fileName    String?  // original filename for audio/image
+  createdAt   DateTime @default(now())
+
+  user TgUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// === Reminders ===
+model Reminder {
+  id        String   @id @default(cuid())
+  userId    String
+  text      String
+  remindAt  DateTime
+  isSent    Boolean  @default(false)
+  isRepeat  Boolean  @default(false)
+  repeatInterval String? // "daily" | "weekly" | "monthly"
+  createdAt DateTime @default(now())
+
+  user TgUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// === Shopping List ===
+model ShoppingItem {
+  id        String   @id @default(cuid())
+  userId    String
+  text      String
+  quantity  String   @default("1")
+  isBought  Boolean  @default(false)
+  category  String   @default("other") // "food" | "household" | "other"
+  createdAt DateTime @default(now())
+
+  user TgUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// === Notes ===
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  content   String
+  tags      String   @default("") // comma-separated
+  createdAt DateTime @default(now())
+
+  user TgUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// === User Context (memory) ===
+model UserContext {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  preferences     String   @default("{}") // JSON: user preferences
+  conversationSummary String @default("") // rolling summary of past conversations
+  lastInteraction DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user TgUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// === Bot Settings ===
+model BotSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
