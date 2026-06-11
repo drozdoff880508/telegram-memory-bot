@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://deepinfra.com/blog/qwen-api-pricing-2026-guide",
+    "name": "Qwen API Pricing Guide 2026: Max Performance on a Budget",
+    "snippet": "A practical 2026 guide to Qwen API pricing—covering rates, cost optimization tips, and strategies to get top performance for just pennies.",
+    "host_name": "deepinfra.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+    "name": "Alibaba Cloud Model Studio:Model invocation pricing",
+    "snippet": "qwen-image-2.0-pro-2026-03-03. $0.075/image. qwen-image-2.0. $0.035/image. qwen-image-2.0-2026-03-03. $0.035/image. qwen-image-max. $0.075/image.",
+    "host_name": "www.alibabacloud.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://qwen.ai/apiplatform",
+    "name": "Qwen API platform",
+    "snippet": "Built with Qwen via OpenAI-compatible API. Power apps for chat, Q&A, creative writing, translation, summarization, and coding. Start building",
+    "host_name": "qwen.ai",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mysummit.school/blog/qwen-alibaba-review-2026",
+    "name": "Qwen от Alibaba в 2026: бесплатный ИИ с открытым кодом для",
+    "snippet": "Важно: Qwen3.7 пока доступен только через API (Preview) – открытых весов нет. Alibaba исторически выпускает открытые версии после закрытого ...",
+    "host_name": "mysummit.school",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pricepertoken.com/pricing-page/provider/qwen",
+    "name": "Qwen API Pricing (Updated 2026) – All Models & Token Costs",
+    "snippet": "Complete Qwen API pricing guide for 2026. Compare all models with per-token costs, context lengths, and pricing examples.",
+    "host_name": "pricepertoken.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://qwen.ai",
+    "name": "Qwen",
+    "snippet": "Qwen Studio is an AI assistant for everyone, powered by the Qwen series models. It's free to use, open to all, and ready to help with creativity, ...",
+    "host_name": "qwen.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://llmcostoptimizer.com/qwen-model-released",
+    "name": "Qwen Pricing 2026: Cost vs GPT-5 and Claude - LLM Cost Optimizer",
+    "snippet": "Alibaba's Qwen family is one of the lowest-cost credible LLM options in 2026, particularly for high-volume, cost-sensitive workloads.",
+    "host_name": "llmcostoptimizer.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eesel.ai/blog/qwen-pricing",
+    "name": "Qwen pricing in 2026: every model, what you actually pay  - eesel AI",
+    "snippet": "Qwen-Turbo ($0.05/1M input) is one of the cheapest capable text APIs alive. Qwen-Plus ($0.40/1M) is the value sweet spot for most production ...",
+    "host_name": "www.eesel.ai",
+    "rank": 7,
+    "date": "Jun 4, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://dtf.ru/howto/5102525-kak-podklyuchit-qwen-ai-api-i-poluchit-klyuch-iz-rossii",
+    "name": "Как подключить Qwen AI API, где взять API ключ Qwen и оплатить",
+    "snippet": "Разбираем Qwen API в 2026: где взять Qwen API Key, как работает Qwen Code API и как оплатить доступ из России. Qwen уже не выглядит как «ещё ...",
+    "host_name": "dtf.ru",
+    "rank": 8,
+    "date": "Jun 4, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ai.cc/ru/alibaba-qwen",
+    "name": "Alibaba Qwen AI API - Более 300 моделей ИИ на одном API - AI.cc",
+    "snippet": "Получите беспрепятственный доступ к расширенным моделям LLM и кодирования Qwen с помощью одного стабильного API. Модель API Sora 2 запущена – попробуйте уже ...",
+    "host_name": "www.ai.cc",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

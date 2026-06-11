@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "name": "Models & Pricing - DeepSeek API Docs",
+    "snippet": "The prices listed below are in units of per 1M tokens. A token, the smallest unit of text that the model recognizes, can be a word, a number, or even a ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pricepertoken.com/pricing-page/provider/deepseek",
+    "name": "Deepseek API Pricing (Updated 2026) – All Models & Token Costs",
+    "snippet": "Complete Deepseek API pricing guide for 2026. Compare all models with per-token costs, context lengths, and pricing examples.",
+    "host_name": "pricepertoken.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sostav.ru/blogs/290442/89981",
+    "name": "Как оплатить DeepSeek из России в 2026 году: пополнение",
+    "snippet": "Доступ к аккаунту и API-ключу никому не передаётся. Из работающих в России площадок можно назвать Oplatym: расчёт в рублях картой РФ или через ...",
+    "host_name": "www.sostav.ru",
+    "rank": 2,
+    "date": "Jun 8, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tldl.io/resources/deepseek-api-pricing",
+    "name": "DeepSeek API Pricing 2026 — Cheapest LLM ($0.14/M Input) | TLDL",
+    "snippet": "DeepSeek API Pricing — April 2026 ; DeepSeek V3.2 (Chat): $0.14/$0.28 per 1M input/output tokens ; DeepSeek V3.2 (Reasoner): $0.14/$0.28 per 1M ...",
+    "host_name": "www.tldl.io",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pikabu.ru/story/deepseek_ai_v_rossii_2026_kak_kupit_api_dostup_oplata_podpiski_i_nastroyka_13199394",
+    "name": "DeepSeek AI в России 2026: как купить API доступ, оплата",
+    "snippet": "В этой статье разберём, как оплатить DeepSeek из России и купить DeepSeek API: надёжные способы оплаты, выбор тарифного плана, настройка ...",
+    "host_name": "pikabu.ru",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vc.ru/services/2841891-deepseek-api-2026-tseny-kak-oplatit-iz-rossii",
+    "name": "Полный гайд по DeepSeek API в 2026 году: цены, возможности и",
+    "snippet": "Цены в 2026 году остаются крайне демократичными. В зависимости от типа задачи и кэширования, стоимость составляет от 14 до 28 центов за один ...",
+    "host_name": "vc.ru",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepseek.ai/pricing",
+    "name": "DeepSeek Pricing 2026 — Free Chat & API from $0.14/M Tokens",
+    "snippet": "The chat interface is completely free. API pricing starts at just $0.14 per million tokens — up to 95% cheaper than GPT-4 Turbo.",
+    "host_name": "deepseek.ai",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mydeepseekapi.com/blog/deepseek-api-free-tiers",
+    "name": "DeepSeek API Free Tier 2026: Limits, Pricing, and Alternatives",
+    "snippet": "Check whether DeepSeek API has a free tier in 2026, what limits to expect, how pricing works after trial access, and the best alternatives ...",
+    "host_name": "mydeepseekapi.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://modelslab.com/blog/api/deepseek-v4-api-pricing-comparison-2026",
+    "name": "DeepSeek V4 API Review: Pricing vs GPT-4o (2026) - ModelsLab",
+    "snippet": "DeepSeek V4 challenges GPT-4o at 18x lower cost. See benchmarks, pricing comparison, and how to access via ModelsLab API.",
+    "host_name": "modelslab.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://checkthat.ai/brands/deepseek/pricing",
+    "name": "DeepSeek Pricing 2026: Plans, Costs & Savings",
+    "snippet": "DeepSeek's API documentation lists: Input tokens (cache miss): $0.55 per million; Input tokens (cache hit): $0.14 per million (74.5% discount) ...",
+    "host_name": "checkthat.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

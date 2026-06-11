@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.morphllm.com/llm-api",
+    "name": "LLM API Comparison 2026: Pricing, Speed, Features | Every Provider",
+    "snippet": "Prices range from $0.08 to $25 per million output tokens. Context windows span 128K to 1M tokens. Throughput ranges from 80 tok/s to 840 tok/s. A chatbot doing ...\nThe widest selection of open-weight models in one place: Llama, DeepSeek, Qwen, Mistral, GLM, Kimi, and smaller community models. Batch API at 50% discount.",
+    "host_name": "www.morphllm.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://fireworks.ai/blog/best-llm-api-providers",
+    "name": "Best LLM API Providers in 2026: We Reviewed 8 Options",
+    "snippet": "We compared pricing, latency, and models across 8 LLM API providers. Find the best fit for production, fine-tuning, custom deployment, ...",
+    "host_name": "fireworks.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.aimagicx.com/blog/llm-api-pricing-comparison-2026",
+    "name": "LLM API Pricing in 2026: The Complete Cost Comparison (GPT-5",
+    "snippet": "A comprehensive comparison of LLM API pricing across all major providers in 2026. Includes full pricing tables, hidden cost factors like ...",
+    "host_name": "www.aimagicx.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "name": "Models & Pricing - DeepSeek API Docs",
+    "snippet": "The prices listed below are in units of per 1M tokens. A token, the smallest unit of text that the model recognizes, can be a word, a number, or even a ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pricepertoken.com/pricing-page/provider/deepseek",
+    "name": "Deepseek API Pricing (Updated 2026) – All Models & Token Costs",
+    "snippet": "Complete Deepseek API pricing guide for 2026. Compare all models with per-token costs, context lengths, and pricing examples.",
+    "host_name": "pricepertoken.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://futureagi.substack.com/p/top-11-llm-api-providers-in-2026",
+    "name": "Top 11 LLM API Providers in 2026 - Future AGI - Substack",
+    "snippet": "Top 11 LLM API Providers in 2026. GPT-5 vs. Claude 4.5 vs. DeepSeek R1: The Definitive Breakdown of Pricing, Benchmarks, and Model Quality.",
+    "host_name": "futureagi.substack.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://wavespeed.ai/blog/ru/posts/best-llm-api-provider-2026",
+    "name": "Лучший провайдер LLM API в 2026 году: почему WaveSpeedAI",
+    "snippet": "Оплата за токены, раздельно для входных и выходных. Нет подписок, нет минимальных обязательств, нет наценки поверх тарифов провайдера. На ...",
+    "host_name": "wavespeed.ai",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tldl.io/resources/llm-api-pricing-2026",
+    "name": "LLM API Pricing 2026 — Compare GPT-5, Claude 4, Gemini  - TLDL",
+    "snippet": "LLM API Pricing Comparison — April 2026 ; Cheapest: Gemini 2.0 Flash-Lite — $0.075/$0.30 per 1M tokens ; Best Value: DeepSeek V3.2 — $0.28/$0.42 ...",
+    "host_name": "www.tldl.io",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nxcode.io/ru/resources/news/deepseek-api-pricing-complete-guide-2026",
+    "name": "Cennik API DeepSeek 2026: Kompleksowy przewodnik po cenach",
+    "snippet": "Мы разберем стоимость входных и выходных tokens, скидки на кэширование, детали бесплатного уровня, лимиты запросов (rate limits), цены сторонних ...",
+    "host_name": "www.nxcode.io",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://inference.net/content/llm-api-pricing-comparison",
+    "name": "LLM API Pricing Comparison 2026: 30+ Models, Every Provider",
+    "snippet": "The most complete LLM API pricing comparison for 2026 — covers 30+ models from OpenAI, Anthropic, Google, Mistral, plus open-source ...",
+    "host_name": "inference.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
