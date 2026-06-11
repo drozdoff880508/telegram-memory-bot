@@ -20,11 +20,14 @@
 4. Перейдите в **API-ключи** → создайте новый ключ
 5. Скопируйте ключ вида `sk-...`
 
+> **Важно:** Один ключ VseGPT даёт доступ и к DeepSeek (текст+картинки), и к Whisper (распознавание голоса). Два отдельных ключа не нужны.
+
 ### GigaChat API Key (опционально, как резерв)
 1. Зайдите на **https://developers.sber.ru/portal/products/gigachat-api**
 2. Зарегистрируйтесь как разработчик
 3. Создайте приложение и получите Client ID и Client Secret
 4. Бесплатный лимит: ~1000 запросов/мес
+5. GigaChat также используется для бесплатного распознавания аудио (лучший русский)
 
 ---
 
@@ -59,18 +62,18 @@ ssh root@YOUR_SERVER_IP
 # Обновление
 sudo apt update && sudo apt upgrade -y
 
-# Установка Node.js 20+ и bun
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Установка bun
+# Установка bun (рекомендуется, быстрый runtime)
 curl -fsSL https://bun.sh/install | bash
 source ~/.bashrc
+
+# Или Node.js 20+ (альтернатива)
+# curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+# sudo apt install -y nodejs
 
 # Установка git
 sudo apt install -y git
 
-# Установка sqlite3
+# Установка sqlite3 (для проверки БД)
 sudo apt install -y sqlite3
 ```
 
@@ -84,17 +87,15 @@ cd /opt
 git clone YOUR_REPO_URL ai-assistant
 cd ai-assistant
 
-# Установка зависимостей
-bun install
-
 # Установка зависимостей бота
 cd mini-services/telegram-bot
 bun install
-cd ../..
 
-# Инициализация базы данных
-bun run db:push
+# Создание директории для БД
+mkdir -p db
 ```
+
+> **Примечание:** Таблицы SQLite создаются автоматически при первом запуске бота. Никаких ручных миграций не требуется.
 
 ---
 
@@ -114,7 +115,7 @@ nano mini-services/telegram-bot/.env
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGHI...     # Ваш токен от BotFather
 DEEPSEEK_API_KEY=sk-...                         # Ваш ключ VseGPT
 
-# Опционально (резервный AI):
+# Опционально (резервный AI + бесплатное распознавание аудио):
 GIGACHAT_CLIENT_ID=your_client_id
 GIGACHAT_CLIENT_SECRET=your_client_secret
 
@@ -141,9 +142,12 @@ bun run index.ts
 🤖 AI Assistant Bot starting...
 📡 DeepSeek model: deepseek-chat
 🌐 Timezone: Europe/Kaliningrad
+✅ Database tables ready
 ✅ Bot @my_personal_ai_bot is running!
 ⏰ Reminder scheduler started
 ```
+
+Если всё работает — нажмите Ctrl+C и настройте автозапуск.
 
 ### Запуск через systemd (автозапуск)
 
@@ -186,27 +190,7 @@ sudo journalctl -u ai-assistant -f
 
 ---
 
-## Шаг 7: Настройка админ-панели (опционально)
-
-Если хотите видеть дашборд в браузере:
-
-```bash
-cd /opt/ai-assistant
-
-# Сборка проекта
-bun run build
-
-# Запуск в продакшн
-bun run start
-```
-
-Админ-панель будет доступна по адресу: `http://YOUR_SERVER_IP:3000`
-
-Для доступа извесьте настройте Caddy или Nginx с HTTPS.
-
----
-
-## Шаг 8: Проверка работы
+## Шаг 7: Проверка работы
 
 1. Откройте Telegram
 2. Найдите вашего бота по username
@@ -217,6 +201,25 @@ bun run start
    - Отправить фото (например, чек)
    - «Напомни через 5 минут проверить бота»
    - «Добавь в покупки молоко, хлеб и сыр»
+
+---
+
+## Архитектура системы
+
+```
+Пользователь → Telegram → Bot (grammy)
+                           ├── Текст → DeepSeek V4 (через VseGPT)
+                           ├── Фото  → DeepSeek V4 Vision
+                           ├── Аудио → GigaChat Audio (бесплатно) → Whisper (фолбэк)
+                           └── Напоминания → node-cron → SQLite
+
+Фолбэк: если DeepSeek недоступен → GigaChat Pro
+```
+
+### Цепочка распознавания аудио:
+1. **GigaChat Audio** (бесплатно, лучший русский) — пробуем первым
+2. **Whisper через VseGPT** (~$0.006/мин) — фолбэк
+3. DeepSeek V4 **не умеет** распознавать аудио — только текст и картинки
 
 ---
 
@@ -231,6 +234,15 @@ bun run start
 | `sudo journalctl -u ai-assistant -f` | Логи в реальном времени |
 | `sudo journalctl -u ai-assistant --since "1 hour ago"` | Логи за последний час |
 
+### Просмотр содержимого БД:
+```bash
+sqlite3 /opt/ai-assistant/mini-services/telegram-bot/db/custom.db
+sqlite> .tables
+sqlite> SELECT * FROM Reminder WHERE isSent = 0;
+sqlite> SELECT * FROM ShoppingItem WHERE isBought = 0;
+sqlite> .quit
+```
+
 ---
 
 ## Обновление
@@ -238,9 +250,7 @@ bun run start
 ```bash
 cd /opt/ai-assistant
 git pull
-bun install
-cd mini-services/telegram-bot && bun install && cd ../..
-bun run db:push
+cd mini-services/telegram-bot && bun install
 sudo systemctl restart ai-assistant
 ```
 
@@ -261,13 +271,17 @@ sudo systemctl restart ai-assistant
 
 ### Ошибка «Whisper transcription error»
 1. Аудио должно быть в формате OGG, MP3, M4A или WAV
-2. Проверьте, что WHISPER_API_KEY совпадает с DEEPSEEK_API_KEY
-3. Файл не должен превышать 25 МБ
+2. Файл не должен превышать 25 МБ
+3. GigaChat Audio пробуется первым — если он настроен, Whisper может не понадобиться
 
 ### Напоминания не приходят
 1. Убедитесь, что бот запущен (systemd status)
 2. Проверьте TIMEZONE в .env
 3. Напоминания проверяются каждую минуту
+
+### Ошибка «Database tables»
+1. Таблицы создаются автоматически при запуске
+2. Если ошибка persists — удалите БД: `rm db/custom.db` и перезапустите
 
 ---
 
@@ -277,5 +291,11 @@ sudo systemctl restart ai-assistant
 |---|---|
 | VPS | ~200-400₽ |
 | VseGPT (DeepSeek + Whisper) | ~150-400₽ |
-| GigaChat (резерв) | бесплатно до лимита |
+| GigaChat (резерв + ASR) | бесплатно до лимита |
 | **Итого** | **~350-800₽/мес** |
+
+### Расход по операциям (примерно):
+- Текстовый чат: ~0.1₽ за запрос
+- Распознавание голоса (GigaChat): бесплатно
+- Распознавание голоса (Whisper): ~0.4₽ за минуту
+- Анализ картинки: ~0.3₽ за изображение

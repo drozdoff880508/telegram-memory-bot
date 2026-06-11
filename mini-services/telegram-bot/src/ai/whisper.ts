@@ -59,7 +59,7 @@ async function transcribeWithWhisper(
 ): Promise<{ text: string; duration?: number }> {
   const client = getClient(env);
 
-  const file = new File([audioBuffer], fileName, {
+  const file = new File([new Uint8Array(audioBuffer)], fileName, {
     type: getMimeType(fileName),
   });
 
@@ -91,7 +91,7 @@ async function transcribeWithGigaChat(
 
   // Step 2: Upload audio file to GigaChat
   const formData = new FormData();
-  formData.append("file", new Blob([audioBuffer], { type: getMimeType(fileName) }), fileName);
+  formData.append("file", new Blob([new Uint8Array(audioBuffer)], { type: getMimeType(fileName) }), fileName);
   formData.append("model", "GigaChat");
 
   const uploadResponse = await fetch(`${env.GIGACHAT_API_URL}/files`, {

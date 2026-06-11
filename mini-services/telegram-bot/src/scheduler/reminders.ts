@@ -10,33 +10,32 @@ export function startReminderScheduler(bot: Bot, db: DB, env: Env) {
       const pending = db.getPendingReminders();
 
       for (const reminder of pending) {
-        const user = db.getUserByTelegramId(
-          // We need to find the user by their DB id
-          // Since Reminder has userId (DB id), we need a lookup
-          await getTelegramIdFromUserId(db, reminder.userId)
-        );
+        const telegramId = db.getTelegramIdByUserId(reminder.userId);
+        if (!telegramId) {
+          console.warn(`⚠️ No telegramId found for userId ${reminder.userId}, skipping reminder`);
+          db.markReminderSent(reminder.id); // Mark as sent to avoid infinite retry
+          continue;
+        }
 
-        if (user) {
-          try {
-            await bot.api.sendMessage(
-              user.telegramId,
-              `🔔 **Напоминание!**\n\n${reminder.text}`,
-              { parse_mode: "Markdown" }
-            );
+        try {
+          await bot.api.sendMessage(
+            telegramId,
+            `🔔 **Напоминание!**\n\n${reminder.text}`,
+            { parse_mode: "Markdown" }
+          );
 
-            db.markReminderSent(reminder.id);
-            console.log(`✅ Reminder sent: "${reminder.text}" to user ${user.telegramId}`);
+          db.markReminderSent(reminder.id);
+          console.log(`✅ Reminder sent: "${reminder.text}" to user ${telegramId}`);
 
-            // Handle repeat reminders
-            if (reminder.isRepeat && reminder.repeatInterval) {
-              const nextDate = getNextRepeatDate(reminder.repeatInterval);
-              if (nextDate) {
-                db.addReminder(reminder.userId, reminder.text, nextDate, true, reminder.repeatInterval);
-              }
+          // Handle repeat reminders
+          if (reminder.isRepeat && reminder.repeatInterval) {
+            const nextDate = getNextRepeatDate(reminder.repeatInterval);
+            if (nextDate) {
+              db.addReminder(reminder.userId, reminder.text, nextDate, true, reminder.repeatInterval);
             }
-          } catch (err) {
-            console.error(`❌ Failed to send reminder to ${user.telegramId}:`, err);
           }
+        } catch (err) {
+          console.error(`❌ Failed to send reminder to ${telegramId}:`, err);
         }
       }
     } catch (err) {
@@ -44,7 +43,7 @@ export function startReminderScheduler(bot: Bot, db: DB, env: Env) {
     }
   });
 
-  // Morning digest at 8:00 AM
+  // Morning digest at 8:00 AM in user's timezone
   cron.schedule("0 8 * * *", async () => {
     try {
       const pendingReminders = db.getPendingReminders();
@@ -58,9 +57,8 @@ export function startReminderScheduler(bot: Bot, db: DB, env: Env) {
       }
 
       for (const [userId, reminders] of Object.entries(byUser)) {
-        const tgId = await getTelegramIdFromUserId(db, userId);
-        const user = db.getUserByTelegramId(tgId);
-        if (!user) continue;
+        const telegramId = db.getTelegramIdByUserId(userId);
+        if (!telegramId) continue;
 
         const todayReminders = reminders.filter((r) => {
           const d = new Date(r.remindAt);
@@ -75,7 +73,7 @@ export function startReminderScheduler(bot: Bot, db: DB, env: Env) {
 
           try {
             await bot.api.sendMessage(
-              user.telegramId,
+              telegramId,
               `☀️ **Доброе утро!**\n\nНапоминания на сегодня:\n${text}`,
               { parse_mode: "Markdown" }
             );
@@ -90,18 +88,6 @@ export function startReminderScheduler(bot: Bot, db: DB, env: Env) {
   });
 
   console.log("⏰ Reminder scheduler started");
-}
-
-async function getTelegramIdFromUserId(db: DB, userId: string): Promise<number> {
-  // We need a direct SQLite query here since our DB interface
-  // uses userId (cuid) but we need telegramId
-  // For simplicity, we'll use a workaround
-  const Database = (await import("better-sqlite3")).default;
-  const path = await import("path");
-  const dbPath = path.resolve(__dirname, "../../db/custom.db");
-  const sqlite = new Database(dbPath);
-  const row = sqlite.prepare("SELECT telegramId FROM TgUser WHERE id = ?").get(userId) as any;
-  return row?.telegramId || 0;
 }
 
 function getNextRepeatDate(interval: string): Date | null {

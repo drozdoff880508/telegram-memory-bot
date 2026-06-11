@@ -1,4 +1,4 @@
-import { Bot } from "grammy";
+import { Bot, InlineKeyboard } from "grammy";
 import type { DB } from "../db";
 import type { Env } from "../env";
 import { chat } from "../ai/deepseek";
@@ -45,7 +45,7 @@ export function registerTextHandler(bot: Bot, db: DB, env: Env) {
         content: SYSTEM_PROMPT + (context?.conversationSummary ? `\n\nКонтекст прошлых разговоров:\n${context.conversationSummary}` : ""),
       };
 
-      const messages = [systemMessage, ...history];
+      const messages: { role: "system" | "user" | "assistant"; content: string }[] = [systemMessage, ...history];
 
       const result = await chat(env, { messages });
 
@@ -53,7 +53,7 @@ export function registerTextHandler(bot: Bot, db: DB, env: Env) {
       db.addMessage(user.id, "assistant", result.content, "text");
 
       // Handle special commands extracted from AI response
-      await handleSpecialCommands(ctx, db, user.id, result.content);
+      const specialResult = await handleSpecialCommands(ctx, db, user.id, result.content, env);
 
       // Send response (remove special markers for user)
       const cleanResponse = result.content
@@ -65,20 +65,64 @@ export function registerTextHandler(bot: Bot, db: DB, env: Env) {
       if (cleanResponse) {
         await ctx.reply(cleanResponse, { parse_mode: "Markdown" });
       }
+
+      // Send inline keyboard for shopping/notes if items were added
+      if (specialResult.shoppingAdded.length > 0) {
+        const kb = new InlineKeyboard();
+        specialResult.shoppingAdded.forEach((item) => {
+          kb.text(`✅ ${item.text}`, `shop_done_${item.id}`).row();
+        });
+        kb.text("🛒 Весь список", "shop_list");
+        await ctx.reply("🛒 Добавлено в список покупок:", { reply_markup: kb });
+      }
     } catch (error: any) {
       console.error("❌ Text handler error:", error);
       await ctx.reply("⚠️ Произошла ошибка. Попробуй ещё раз.");
     }
   });
+
+  // Inline button handlers
+  bot.callbackQuery(/^shop_done_(.+)$/, async (ctx) => {
+    const itemId = ctx.match[1];
+    db.toggleShoppingItem(itemId);
+    await ctx.answerCallbackQuery("✅ Отмечено как купленное!");
+    await ctx.editMessageText("✅ Куплено!");
+  });
+
+  bot.callbackQuery("shop_list", async (ctx) => {
+    const user = db.ensureUser(ctx.from!.id);
+    const items = db.getShoppingList(user.id);
+    if (items.length === 0) {
+      await ctx.answerCallbackQuery("🛒 Список пуст!");
+      return;
+    }
+    const text = items
+      .map((item: any) => `• ${item.text} (${item.quantity})`)
+      .join("\n");
+    await ctx.answerCallbackQuery();
+    await ctx.reply(`🛒 **Список покупок:**\n\n${text}`, { parse_mode: "Markdown" });
+  });
 }
 
-async function handleSpecialCommands(ctx: any, db: DB, userId: string, text: string) {
+interface SpecialCommandResult {
+  shoppingAdded: { id: string; text: string }[];
+}
+
+async function handleSpecialCommands(
+  ctx: any,
+  db: DB,
+  userId: string,
+  text: string,
+  env: Env
+): Promise<SpecialCommandResult> {
+  const result: SpecialCommandResult = { shoppingAdded: [] };
+
   // Parse reminders: [НАПОМИНАНИЕ] текст | время
   const reminderMatch = text.match(/\[НАПОМИНАНИЕ\]\s*(.+?)\s*\|\s*(.+)/);
   if (reminderMatch) {
     const reminderText = reminderMatch[1].trim();
     const timeStr = reminderMatch[2].trim();
-    const remindAt = parseTimeString(timeStr);
+    const remindAt = parseTimeString(timeStr, env.TIMEZONE);
     if (remindAt) {
       db.addReminder(userId, reminderText, remindAt);
     }
@@ -89,7 +133,8 @@ async function handleSpecialCommands(ctx: any, db: DB, userId: string, text: str
   if (shoppingMatch) {
     const items = shoppingMatch[1].split(",").map((s) => s.trim()).filter(Boolean);
     items.forEach((item) => {
-      db.addShoppingItem(userId, item, "1", categorizeItem(item));
+      const added = db.addShoppingItem(userId, item, "1", categorizeItem(item));
+      result.shoppingAdded.push({ id: added.id, text: item });
     });
   }
 
@@ -100,10 +145,18 @@ async function handleSpecialCommands(ctx: any, db: DB, userId: string, text: str
     const content = noteMatch[2].trim();
     db.addNote(userId, title, content);
   }
+
+  return result;
 }
 
-function parseTimeString(timeStr: string): Date | null {
-  const now = new Date();
+/**
+ * Parse Russian time expressions into a Date object.
+ * Uses the specified timezone instead of system UTC.
+ */
+function parseTimeString(timeStr: string, timezone: string): Date | null {
+  // Get current time in user's timezone
+  const nowStr = new Date().toLocaleString("en-US", { timeZone: timezone });
+  const now = new Date(nowStr);
 
   // "в 15:00" or "15:00"
   const timeOnly = timeStr.match(/(?:в\s+)?(\d{1,2}):(\d{2})/);
@@ -113,7 +166,7 @@ function parseTimeString(timeStr: string): Date | null {
     const date = new Date(now);
     date.setHours(hours, minutes, 0, 0);
     if (date <= now) date.setDate(date.getDate() + 1);
-    return date;
+    return toUTCDate(date, timezone);
   }
 
   // "завтра в 15:00"
@@ -122,23 +175,59 @@ function parseTimeString(timeStr: string): Date | null {
     const date = new Date(now);
     date.setDate(date.getDate() + 1);
     date.setHours(parseInt(tomorrow[1]), parseInt(tomorrow[2]), 0, 0);
-    return date;
+    return toUTCDate(date, timezone);
+  }
+
+  // "завтра" (without time)
+  if (/завтра/i.test(timeStr)) {
+    const date = new Date(now);
+    date.setDate(date.getDate() + 1);
+    date.setHours(9, 0, 0, 0); // Default to 9:00 AM
+    return toUTCDate(date, timezone);
   }
 
   // "через 30 минут"
-  const inMinutes = timeStr.match(/через\s+(\d+)\s*(минут|мин)/i);
+  const inMinutes = timeStr.match(/через\s+(\d+)\s*(минут|мин|м)/i);
   if (inMinutes) {
-    return new Date(now.getTime() + parseInt(inMinutes[1]) * 60 * 1000);
+    const date = new Date();
+    date.setMinutes(date.getMinutes() + parseInt(inMinutes[1]));
+    return date;
   }
 
   // "через 2 часа"
   const inHours = timeStr.match(/через\s+(\d+)\s*(час|ч)/i);
   if (inHours) {
-    return new Date(now.getTime() + parseInt(inHours[1]) * 60 * 60 * 1000);
+    const date = new Date();
+    date.setHours(date.getHours() + parseInt(inHours[1]));
+    return date;
+  }
+
+  // "через 2 дня"
+  const inDays = timeStr.match(/через\s+(\d+)\s*(день|дня|дней|д)/i);
+  if (inDays) {
+    const date = new Date();
+    date.setDate(date.getDate() + parseInt(inDays[1]));
+    return date;
   }
 
   // Default: 1 hour from now
-  return new Date(now.getTime() + 60 * 60 * 1000);
+  return new Date(Date.now() + 60 * 60 * 1000);
+}
+
+/**
+ * Convert a local-time Date in a given timezone to a proper UTC Date.
+ * This ensures reminders fire at the correct wall-clock time.
+ */
+function toUTCDate(localDate: Date, timezone: string): Date {
+  // Create a date string in the target timezone, then parse it back as UTC
+  const localStr = localDate.toLocaleString("en-US", { timeZone: timezone });
+  const utcStr = new Date().toLocaleString("en-US", { timeZone: "UTC" });
+
+  const localMs = new Date(localStr).getTime();
+  const utcMs = new Date(utcStr).getTime();
+  const offset = utcMs - localMs; // timezone offset in ms
+
+  return new Date(localDate.getTime() - offset + (Date.now() - new Date(utcStr).getTime()));
 }
 
 function categorizeItem(item: string): string {

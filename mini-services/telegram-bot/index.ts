@@ -17,6 +17,18 @@ async function main() {
 
   const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
 
+  // Error handling — MUST be registered before bot.start()
+  bot.catch((err) => {
+    const e = err.error;
+    if (e instanceof GrammyError) {
+      console.error("❌ Grammy error:", e.description);
+    } else if (e instanceof HttpError) {
+      console.error("❌ HTTP error:", e);
+    } else {
+      console.error("❌ Unknown error:", e);
+    }
+  });
+
   // Middleware: check allowed users
   if (env.ALLOWED_TELEGRAM_IDS.length > 0) {
     bot.use(async (ctx, next) => {
@@ -43,18 +55,6 @@ async function main() {
     onStart: (info) => {
       console.log(`✅ Bot @${info.username} is running!`);
     },
-  });
-
-  // Error handling
-  bot.catch((err) => {
-    const e = err.error;
-    if (e instanceof GrammyError) {
-      console.error("❌ Grammy error:", e.description);
-    } else if (e instanceof HttpError) {
-      console.error("❌ HTTP error:", e);
-    } else {
-      console.error("❌ Unknown error:", e);
-    }
   });
 }
 
