@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=4KxT50F7cQs",
+    "name": "Какая нейросеть ЛУЧШАЯ в 2026? Протестировал ВСЕ",
+    "snippet": "Какая нейросеть ЛУЧШАЯ в 2026? Протестировал ВСЕ (ChatGPT, Claude, Gemini, DeepSeek) · Comments.",
+    "host_name": "www.youtube.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://habr.com/ru/articles/971864",
+    "name": "Сравнительный анализ 18 LLM моделей: конец монополии? - Habr",
+    "snippet": "VLM: модели с пониманием изображений Vision-Language Models — отдельная категория, где модель понимает и текст, и картинки.",
+    "host_name": "habr.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mindstudio.ai/blog/deepseek-v4-vision-cheaper-multimodal-ai-workflows",
+    "name": "DeepSeek V4 Vision: 10x Cheaper Multimodal AI for Your Workflows",
+    "snippet": "DeepSeek V4's vision model uses 90 KV cache entries vs 870 for Claude—10x cheaper. Learn how to use it in your AI workflows and agents.",
+    "host_name": "www.mindstudio.ai",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.morphllm.com/llm-api",
+    "name": "LLM API Comparison 2026: Pricing, Speed, Features | Every Provider",
+    "snippet": "comparison of 11 LLM API providers. Prices range from $0.08 to $25 per million output tokens. $42 on DeepSeek V3.2. vision capabilities, and batch APIs. Vision ...\nSide-by-side comparison of 11 LLM API providers. Pricing per million tokens, context windows, throughput benchmarks, and a decision framework for OpenAI,...",
+    "host_name": "www.morphllm.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aimlapi.com/blog/top-llm-models-in-2026-the-best-ai-models-for-reasoning-coding-multimodal-tasks",
+    "name": "Top LLM Models in 2026: The Best AI Models for Reasoning",
+    "snippet": "Top LLM Models in 2026: The Best AI Models for Reasoning, Coding & Multimodal. DeepSeek dropped V4 Pro with MIT licensing costs by 75 pricing ...",
+    "host_name": "aimlapi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.it-world.ru/tech/kwk3lgi1stw8o8ws4gwcgwws4o4kw48.html",
+    "name": "GigaChat 2 MAX обходит DeepSeek и GPT - IT-World",
+    "snippet": "Так, GigaChat 2 MAX лучше справляется с фактологическими вопросами на русском языке, точнее следует заданному формату по сравнению с DeepSeek-V3 ...",
+    "host_name": "www.it-world.ru",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison",
+    "name": "The Big LLM Architecture Comparison - Ahead of AI",
+    "snippet": "The Big LLM Architecture Comparison From DeepSeek V3 to GLM-5: 2026 (added Gemma 4 in section 23) the original GPT architecture was developed. ...",
+    "host_name": "magazine.sebastianraschka.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.instagram.com/reel/DWqgAfpjDG6",
+    "name": "Разбираем, как изменился рынок LLM к 2026 году и почему",
+    "snippet": "... DeepSeek и GLM по цене, логике и удобству внедрения. Читайте карточки, чтобы не переплачивать за API! #LLM #DeepSeek #AI #Нейросети ...",
+    "host_name": "www.instagram.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gurusup.com/blog/ai-comparisons",
+    "name": "AI Models in 2026: Which One Should You Actually Use? - GuruSup",
+    "snippet": "For the deep dives, we wrote dedicated head-to-head comparisons you can read below. AI Models at a Glance: 2026 Overview. Here is where the four ...",
+    "host_name": "gurusup.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vsegpt.ru/Docs/Models",
+    "name": "Текстовые модели - OpenAI GPT, ChatGPT, Opus 4.5  - VseGPT",
+    "snippet": "Генерация изображений · Редактирование изображений / по референсам · Эмбеддинги (для RAG) · Vision (распознавание изображений, OCR) · Speech-To-Text ( ...",
+    "host_name": "vsegpt.ru",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

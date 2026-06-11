@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.mindstudio.ai/blog/deepseek-v4-vision-cheaper-multimodal-ai-workflows",
+    "name": "DeepSeek V4 Vision: 10x Cheaper Multimodal AI for Your Workflows",
+    "snippet": "DeepSeek's API pricing is significantly lower — roughly 10–20x cheaper per token than GPT-4o or Claude 3.5 Sonnet on input.",
+    "host_name": "www.mindstudio.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "name": "Models & Pricing - DeepSeek API Docs",
+    "snippet": "The prices listed below are in units of per 1M tokens. A token, the smallest unit of text that the model recognizes, can be a word, a number, or even a ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepinfra.com/blog/deepseek-v4-pro-pricing-guide-2026-providers-cost-analysis",
+    "name": "DeepSeek V4 Pro Pricing Guide 2026: Pricing, Providers & Cost",
+    "snippet": "DeepSeek V4 Pro Max is tracked across six API providers, and five of them cluster at the same blended price of $2.17 per 1M tokens while still ...",
+    "host_name": "deepinfra.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sitepoint.com/deepseek-v4-preview-what-the-fast-expert-and-vision-modes-suggest",
+    "name": "DeepSeek V4 Preview: What the Fast, Expert, and Vision Modes",
+    "snippet": "DeepSeek has not announced pricing for mode-specific API calls: whether modes carry separate per-token rates or a unified pricing model changes ...",
+    "host_name": "www.sitepoint.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/DeepSeek/comments/1tbylbs/when_the_hell_will_deepseek_v4_api_support_image",
+    "name": "When the hell will deepseek v4 api support image understanding??!",
+    "snippet": "Only Vision have multimodal, some people are using the web version as an API, which allows them to obtain unlimited and free API quotas.",
+    "host_name": "www.reddit.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://lightning.ai/blog/deepseekv4comparison",
+    "name": "DeepSeek V4 Alters Everything We Knew About Price-Performance",
+    "snippet": "Output Price (per 1M) $3.48 $0.28. Pricing sourced from official DeepSeek API docs and Anthropic pricing page as of April 24, 2026. price drop ...",
+    "host_name": "lightning.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepseek.ai/deepseek-v4",
+    "name": "DeepSeek V4 (2026) — 1T Params, Benchmarks & Pricing",
+    "snippet": "5.00 per million. DeepSeek V4's expected API pricing is highly disruptive: $0.14–$0.30/M. Output $0.28–$0.50/M $5.00–$60.00/M $25.00/M ek V4 ...",
+    "host_name": "deepseek.ai",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://evolink.ai/blog/deepseek-v4-api-review-2026-flash-vs-pro-guide",
+    "name": "DeepSeek V4 API Review 2026: Flash vs Pro Guide - EvoLink",
+    "snippet": "Official input pricing $0.14 / M cache miss Official output pricing $0.28 / 1M $3.48. Use the DeepSeek V4 API page if you want route-level ...",
+    "host_name": "evolink.ai",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://help.apiyi.com/en/deepseek-v4-multimodal-trillion-parameter-model-guide-en.html",
+    "name": "Master the 5 Core Capabilities and API Integration Methods of",
+    "snippet": "DeepSeek V4 is about to be released—a trillion-parameter native multimodal model that supports unified generation of text, images, and video.",
+    "host_name": "help.apiyi.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.bentoml.com/blog/the-complete-guide-to-deepseek-models-from-v3-to-r1-and-beyond",
+    "name": "The Complete Guide to DeepSeek Models: V3, R1, V4 and Beyond",
+    "snippet": "Understand the differences among DeepSeek-V3, R1, V3.1, V3.2, V4, and distilled models. Learn how to choose the right model and deploy them ...",
+    "host_name": "www.bentoml.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

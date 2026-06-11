@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://developers.sber.ru/portal/products/gigachat-api",
+    "name": "GigaChat API — искусственный интеллект для бизнеса",
+    "snippet": "GigaChat API Искусственный интеллект в вашем продукте. GigaChat теперь распознаёт объекты и текст на изображениях. Уравнение равносильно системе.",
+    "host_name": "developers.sber.ru",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.postman.com/salute-developers-7605/public/documentation/17b9yp0/gigachat-api",
+    "name": "GigaChat API | Documentation | Postman API Network",
+    "snippet": "GigaChat API Documentation · Подготовка к работе · Отправка запросов · Переменные коллекции · Работа с файлами · Текстовые документы · Изображения · Аудиофайлы.",
+    "host_name": "www.postman.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/ai-forever/gigachain/blob/master/cookbook/gigachat_vision/gigachat_vision.ipynb",
+    "name": "Работа с GigaChat Vision - gigachain - GitHub",
+    "snippet": "Загружаем фото на S3 хранилище GigaChat; Просим GigaChat проанализировать фотографии, выделить сущности на них и написать описание к фото; Выдать ответ в виде ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sberbank.ru/ru/sberpress/all/article?newsID=08653260-34ca-4218-9783-c53772fdaf77&blockID=1303&regionID=77&lang=ru&type=NEWS",
+    "name": "GigaChat научился распознавать изображения - Сбербанк",
+    "snippet": "Система искусственного интеллекта теперь поддерживает работу с изображениями как источником информации и обрабатывает в четыре раза больше ...",
+    "host_name": "www.sberbank.ru",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=7mRdG_ocEQY",
+    "name": "GigaChat API: работа с изображениями (распознавание и",
+    "snippet": "Все чаще можно слышать о том, что ИИ движется в своем развитии от больших языковых моделей к большим мультимодельным моделям, которые смогут ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://appleinsider.ru/obzory-prilozhenij/gigachat-ot-sbera-v-2026-godu-kak-polzovatsya-api-tarify-i-sravnenie-s-yandexgpt.html",
+    "name": "GigaChat от Сбера в 2026 году: как пользоваться, API, тарифы и",
+    "snippet": "GigaChat — это мультимодальная нейросеть Сбера, то есть ИИ, который понимает не только текст, но и изображения и звук. Он запущен в апреле 2023 ...",
+    "host_name": "appleinsider.ru",
+    "rank": 5,
+    "date": "Jun 6, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://ru.linkedin.com/posts/viacheslavgavrishin_gigachat-api-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8-%D1%80%D0%B0%D1%81%D0%BF%D0%BE%D0%B7%D0%BD%D0%B0%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-activity-7262803412646330369-_ug0",
+    "name": "GigaChat API - Вячеслав Гавришин - LinkedIn",
+    "snippet": "GigaChat API: работа с изображениями (распознавание и генерация). https://www.youtube.com/. Нравится Комментировать. Поделиться. Копировать",
+    "host_name": "ru.linkedin.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://consult-cct.ru/gigachat-api-stal-dostupen-polzovatelyam-dlya-sozdaniya-nekommercheskih-proektov-bez-dopolnitelnoj-oplaty",
+    "name": "GigaChat API стал доступен пользователям для создания",
+    "snippet": "Пользователи всего в несколько кликов получат доступ без дополнительной оплаты к GigaChat API для некоммерческих задач.",
+    "host_name": "consult-cct.ru",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://giga.chat/help/articles/work-with-docs",
+    "name": "Работа с документами в GigaChat",
+    "snippet": "Работа с документами. В GigaChat доступен анализ прикреплённого файла формата DOCX, PDF и TXT. Для анализа текста можно использовать промпты ...",
+    "host_name": "giga.chat",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vc.ru/aihub/2844298-gigachat-besplatno-kak-poluchit-dostup",
+    "name": "GigaChat бесплатно: как получить доступ и что умеет нейросеть",
+    "snippet": "Шаг первый: зайдите на developers.sber.ru/gigachat. Шаг второй: зарегистрируйтесь как разработчик. Шаг третий: получите API ключ.",
+    "host_name": "vc.ru",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
