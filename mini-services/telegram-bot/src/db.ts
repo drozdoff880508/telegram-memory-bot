@@ -1,5 +1,5 @@
-import { Database } from "bun:sqlite";
 import path from "path";
+import fs from "fs";
 
 export interface DB {
   getUserByTelegramId(telegramId: number): any | null;
@@ -32,10 +32,6 @@ export interface DB {
   getTelegramIdByUserId(userId: string): number | null;
 }
 
-/**
- * SQL for creating all tables.
- * This runs on every startup — CREATE TABLE IF NOT EXISTS is safe.
- */
 const CREATE_TABLES_SQL = `
   CREATE TABLE IF NOT EXISTS TgUser (
     id TEXT PRIMARY KEY,
@@ -109,7 +105,6 @@ const CREATE_TABLES_SQL = `
     value TEXT NOT NULL
   );
 
-  -- Indexes for performance
   CREATE INDEX IF NOT EXISTS idx_message_userId ON Message(userId);
   CREATE INDEX IF NOT EXISTS idx_reminder_pending ON Reminder(isSent, remindAt);
   CREATE INDEX IF NOT EXISTS idx_reminder_userId ON Reminder(userId);
@@ -118,68 +113,114 @@ const CREATE_TABLES_SQL = `
   CREATE INDEX IF NOT EXISTS idx_usercontext_userId ON UserContext(userId);
 `;
 
+// Wrapper that works with both bun:sqlite and better-sqlite3
+interface SQLiteWrapper {
+  exec(sql: string): void;
+  query(sql: string): { get(...params: any[]): any; all(...params: any[]): any[] };
+  run(sql: string, ...params: any[]): { lastInsertRowid: number | bigint };
+}
+
+function wrapBun(db: any): SQLiteWrapper {
+  return {
+    exec(sql: string) { db.exec(sql); },
+    query(sql: string) {
+      const stmt = db.query(sql);
+      return {
+        get(...params: any[]) { return stmt.get(...params); },
+        all(...params: any[]) { return stmt.all(...params); },
+      };
+    },
+    run(sql: string, ...params: any[]) { return db.run(sql, ...params); },
+  };
+}
+
+function wrapBetter(db: any): SQLiteWrapper {
+  return {
+    exec(sql: string) { db.exec(sql); },
+    query(sql: string) {
+      const stmt = db.prepare(sql);
+      return {
+        get(...params: any[]) { return stmt.get(...params); },
+        all(...params: any[]) { return stmt.all(...params); },
+      };
+    },
+    run(sql: string, ...params: any[]) { return stmt_run(db, sql, params); },
+  };
+}
+
+function stmt_run(db: any, sql: string, params: any[]) {
+  const stmt = db.prepare(sql);
+  return stmt.run(...params);
+}
+
 export function createDB(): DB {
-  const dbPath = path.resolve(__dirname, "../../db/custom.db");
+  const dbPath = path.resolve(process.cwd(), "db/custom.db");
 
   // Ensure db directory exists
-  const fs = require("fs");
   const dbDir = path.dirname(dbPath);
   if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
   }
 
-  const sqlite = new Database(dbPath);
+  // Try to open database — prefer better-sqlite3, fallback to bun:sqlite
+  let sqlite: SQLiteWrapper;
+  try {
+    const BetterDatabase = require("better-sqlite3");
+    const raw = new BetterDatabase(dbPath);
+    raw.pragma("journal_mode = WAL");
+    raw.pragma("foreign_keys = ON");
+    sqlite = wrapBetter(raw);
+    console.log("✅ Using better-sqlite3");
+  } catch {
+    const { Database: BunDatabase } = require("bun:sqlite");
+    const raw = new BunDatabase(dbPath);
+    raw.exec("PRAGMA journal_mode = WAL");
+    raw.exec("PRAGMA foreign_keys = ON");
+    sqlite = wrapBun(raw);
+    console.log("✅ Using bun:sqlite");
+  }
 
-  // Enable WAL mode for better concurrent read performance
-  sqlite.exec("PRAGMA journal_mode = WAL");
-  sqlite.exec("PRAGMA foreign_keys = ON");
-
-  // Auto-create tables on startup
+  // Create tables
   sqlite.exec(CREATE_TABLES_SQL);
   console.log("✅ Database tables ready");
 
+  // Helper: run a query that returns nothing
+  const run = (sql: string, ...params: any[]) => sqlite.run(sql, ...params);
+  const get = (sql: string, ...params: any[]) => sqlite.query(sql).get(...params);
+  const all = (sql: string, ...params: any[]) => sqlite.query(sql).all(...params);
+
   return {
     getUserByTelegramId(telegramId: number) {
-      return sqlite.query("SELECT * FROM TgUser WHERE telegramId = ?").get(telegramId) as any | null;
+      return get("SELECT * FROM TgUser WHERE telegramId = ?", telegramId) as any | null;
     },
 
     createUser(telegramId: number, firstName?: string, lastName?: string, username?: string) {
       const id = cuid();
-      sqlite.query(
-        "INSERT INTO TgUser (id, telegramId, firstName, lastName, username, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))"
-      ).run(id, telegramId, firstName || null, lastName || null, username || null);
-      return sqlite.query("SELECT * FROM TgUser WHERE id = ?").get(id);
+      run("INSERT INTO TgUser (id, telegramId, firstName, lastName, username, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))",
+        id, telegramId, firstName || null, lastName || null, username || null);
+      return get("SELECT * FROM TgUser WHERE id = ?", id);
     },
 
     ensureUser(telegramId: number, firstName?: string, lastName?: string, username?: string) {
       let user = this.getUserByTelegramId(telegramId);
       if (!user) {
         user = this.createUser(telegramId, firstName, lastName, username);
-        // Create empty context for new user
-        sqlite.query(
-          "INSERT INTO UserContext (id, userId, preferences, conversationSummary, lastInteraction, createdAt, updatedAt) VALUES (?, ?, '{}', '', datetime('now'), datetime('now'), datetime('now'))"
-        ).run(cuid(), user.id);
+        run("INSERT INTO UserContext (id, userId, preferences, conversationSummary, lastInteraction, createdAt, updatedAt) VALUES (?, ?, '{}', '', datetime('now'), datetime('now'), datetime('now'))",
+          cuid(), user.id);
       } else {
-        // Update user info on each interaction
-        sqlite.query(
-          "UPDATE TgUser SET firstName = ?, lastName = ?, username = ?, updatedAt = datetime('now') WHERE telegramId = ?"
-        ).run(firstName || null, lastName || null, username || null, telegramId);
+        run("UPDATE TgUser SET firstName = ?, lastName = ?, username = ?, updatedAt = datetime('now') WHERE telegramId = ?",
+          firstName || null, lastName || null, username || null, telegramId);
       }
       return user;
     },
 
-    // === Messages ===
-
     addMessage(userId: string, role: string, content: string, messageType = "text", fileName?: string) {
-      sqlite.query(
-        "INSERT INTO Message (id, userId, role, content, messageType, fileName, createdAt) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))"
-      ).run(cuid(), userId, role, content, messageType, fileName || null);
+      run("INSERT INTO Message (id, userId, role, content, messageType, fileName, createdAt) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))",
+        cuid(), userId, role, content, messageType, fileName || null);
     },
 
     getRecentMessages(userId: string, limit = 20) {
-      return sqlite.query("SELECT * FROM Message WHERE userId = ? ORDER BY createdAt DESC LIMIT ?")
-        .all(userId, limit)
-        .reverse();
+      return all("SELECT * FROM Message WHERE userId = ? ORDER BY createdAt DESC LIMIT ?", userId, limit).reverse();
     },
 
     getConversationHistory(userId: string, limit = 20): { role: "system" | "user" | "assistant"; content: string }[] {
@@ -190,80 +231,69 @@ export function createDB(): DB {
       }));
     },
 
-    // === Reminders ===
-
     addReminder(userId: string, text: string, remindAt: Date, isRepeat = false, repeatInterval?: string) {
       const id = cuid();
-      sqlite.query(
-        "INSERT INTO Reminder (id, userId, text, remindAt, isSent, isRepeat, repeatInterval, createdAt) VALUES (?, ?, ?, ?, 0, ?, ?, datetime('now'))"
-      ).run(id, userId, text, remindAt.toISOString(), isRepeat ? 1 : 0, repeatInterval || null);
-      return sqlite.query("SELECT * FROM Reminder WHERE id = ?").get(id);
+      run("INSERT INTO Reminder (id, userId, text, remindAt, isSent, isRepeat, repeatInterval, createdAt) VALUES (?, ?, ?, ?, 0, ?, ?, datetime('now'))",
+        id, userId, text, remindAt.toISOString(), isRepeat ? 1 : 0, repeatInterval || null);
+      return get("SELECT * FROM Reminder WHERE id = ?", id);
     },
 
     getPendingReminders() {
-      return sqlite.query("SELECT * FROM Reminder WHERE isSent = 0 AND remindAt <= datetime('now')").all();
+      return all("SELECT * FROM Reminder WHERE isSent = 0 AND remindAt <= datetime('now')");
     },
 
     markReminderSent(id: string) {
-      sqlite.query("UPDATE Reminder SET isSent = 1 WHERE id = ?").run(id);
+      run("UPDATE Reminder SET isSent = 1 WHERE id = ?", id);
     },
 
     getUserReminders(userId: string) {
-      return sqlite.query("SELECT * FROM Reminder WHERE userId = ? AND isSent = 0 ORDER BY remindAt ASC").all(userId);
+      return all("SELECT * FROM Reminder WHERE userId = ? AND isSent = 0 ORDER BY remindAt ASC", userId);
     },
 
     deleteReminder(id: string) {
-      sqlite.query("DELETE FROM Reminder WHERE id = ?").run(id);
+      run("DELETE FROM Reminder WHERE id = ?", id);
     },
-
-    // === Shopping ===
 
     addShoppingItem(userId: string, text: string, quantity = "1", category = "other") {
       const id = cuid();
-      sqlite.query(
-        "INSERT INTO ShoppingItem (id, userId, text, quantity, isBought, category, createdAt) VALUES (?, ?, ?, ?, 0, ?, datetime('now'))"
-      ).run(id, userId, text, quantity, category);
-      return sqlite.query("SELECT * FROM ShoppingItem WHERE id = ?").get(id);
+      run("INSERT INTO ShoppingItem (id, userId, text, quantity, isBought, category, createdAt) VALUES (?, ?, ?, ?, 0, ?, datetime('now'))",
+        id, userId, text, quantity, category);
+      return get("SELECT * FROM ShoppingItem WHERE id = ?", id);
     },
 
     getShoppingList(userId: string) {
-      return sqlite.query("SELECT * FROM ShoppingItem WHERE userId = ? AND isBought = 0 ORDER BY category, createdAt ASC").all(userId);
+      return all("SELECT * FROM ShoppingItem WHERE userId = ? AND isBought = 0 ORDER BY category, createdAt ASC", userId);
     },
 
     toggleShoppingItem(id: string) {
-      sqlite.query("UPDATE ShoppingItem SET isBought = CASE WHEN isBought = 0 THEN 1 ELSE 0 END WHERE id = ?").run(id);
+      run("UPDATE ShoppingItem SET isBought = CASE WHEN isBought = 0 THEN 1 ELSE 0 END WHERE id = ?", id);
     },
 
     deleteShoppingItem(id: string) {
-      sqlite.query("DELETE FROM ShoppingItem WHERE id = ?").run(id);
+      run("DELETE FROM ShoppingItem WHERE id = ?", id);
     },
 
     clearBoughtItems(userId: string) {
-      sqlite.query("DELETE FROM ShoppingItem WHERE userId = ? AND isBought = 1").run(userId);
+      run("DELETE FROM ShoppingItem WHERE userId = ? AND isBought = 1", userId);
     },
-
-    // === Notes ===
 
     addNote(userId: string, title: string, content: string, tags = "") {
       const id = cuid();
-      sqlite.query(
-        "INSERT INTO Note (id, userId, title, content, tags, createdAt) VALUES (?, ?, ?, ?, ?, datetime('now'))"
-      ).run(id, userId, title, content, tags);
-      return sqlite.query("SELECT * FROM Note WHERE id = ?").get(id);
+      run("INSERT INTO Note (id, userId, title, content, tags, createdAt) VALUES (?, ?, ?, ?, ?, datetime('now'))",
+        id, userId, title, content, tags);
+      return get("SELECT * FROM Note WHERE id = ?", id);
     },
 
     getNotes(userId: string) {
-      return sqlite.query("SELECT * FROM Note WHERE userId = ? ORDER BY createdAt DESC").all(userId);
+      return all("SELECT * FROM Note WHERE userId = ? ORDER BY createdAt DESC", userId);
     },
 
     deleteNote(id: string) {
-      sqlite.query("DELETE FROM Note WHERE id = ?").run(id);
+      run("DELETE FROM Note WHERE id = ?", id);
     },
 
-    // === User Context ===
-
     getUserContext(userId: string) {
-      return sqlite.query("SELECT * FROM UserContext WHERE userId = ?").get(userId) as any | null;
+      return get("SELECT * FROM UserContext WHERE userId = ?", userId) as any | null;
     },
 
     updateUserContext(userId: string, data: { preferences?: string; conversationSummary?: string }) {
@@ -280,19 +310,16 @@ export function createDB(): DB {
       fields.push("updatedAt = datetime('now')");
       fields.push("lastInteraction = datetime('now')");
       values.push(userId);
-      sqlite.query(`UPDATE UserContext SET ${fields.join(", ")} WHERE userId = ?`).run(...values);
+      run(`UPDATE UserContext SET ${fields.join(", ")} WHERE userId = ?`, ...values);
     },
 
-    // === Utility ===
-
     getTelegramIdByUserId(userId: string): number | null {
-      const row = sqlite.query("SELECT telegramId FROM TgUser WHERE id = ?").get(userId) as any;
+      const row = get("SELECT telegramId FROM TgUser WHERE id = ?", userId) as any;
       return row?.telegramId ?? null;
     },
   };
 }
 
-// Simple CUID-like ID generator
 function cuid(): string {
   const timestamp = Date.now().toString(36);
   const random = Math.random().toString(36).substring(2, 10);

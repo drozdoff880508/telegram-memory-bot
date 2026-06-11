@@ -85,7 +85,7 @@ export async function analyzeImage(
   try {
     const client = getClient(env);
     const response = await client.chat.completions.create({
-      model: "deepseek-chat", // VseGPT routes to DeepSeek V4 Vision
+      model: env.DEEPSEEK_MODEL, // Uses same model (DeepSeek chat supports vision on VseGPT)
       messages: [
         ...history,
         {
