@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.mindstudio.ai/blog/deepseek-v4-vision-cheaper-multimodal-ai-workflows",
+    "name": "DeepSeek V4 Vision: 10x Cheaper Multimodal AI for Your Workflows",
+    "snippet": "DeepSeek V4 Vision refers to DeepSeek's latest generation large language model with native multimodal (image + text) input support. It uses ...",
+    "host_name": "www.mindstudio.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com",
+    "name": "DeepSeek API Docs: Your First API Call",
+    "snippet": "The DeepSeek API uses an API format compatible with OpenAI/Anthropic. By modifying the configuration, you can use the OpenAI/Anthropic SDK or softwares ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=SZYpRkoazb0&vl=en",
+    "name": "Build An AI Voice Agent With DeepSeek R1 (Python) - YouTube",
+    "snippet": "Get your AssemblyAI API key here: https://www.assemblyai.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt_smit_28 Github repo: ...",
+    "host_name": "www.youtube.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://picovoice.ai/blog/add-voice-to-deepseek",
+    "name": "DeepSeek Voice Mode Tutorial: Add Voice Chat with Python",
+    "snippet": "Add voice mode to DeepSeek API without cloud latency. Complete voice assistant tutorial in Python with wake words, real-time speech-to-text, ...",
+    "host_name": "picovoice.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/DeepSeek/comments/1iwz5o4/best_way_to_transcribe_with_deepseek",
+    "name": "Best way to transcribe with deepseek - Reddit",
+    "snippet": "I want to use deepseek to transcribe lectures, did someone make an app or extension for deepseek for easy speech-to-text?",
+    "host_name": "www.reddit.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/theaifutureguy/DeepSeek-R1-Voice-Agent",
+    "name": "theaifutureguy/DeepSeek-R1-Voice-Agent: An interactive AI voice",
+    "snippet": "This project creates an interactive AI voice agent that: Captures and transcribes speech in real-time using AssemblyAI; Generates intelligent responses ...",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "name": "Models & Pricing - DeepSeek API Docs",
+    "snippet": "Models & Pricing. The prices listed below are in units of per 1M tokens. A token, the smallest unit of text that the model recognizes, can be a word, ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.api.nvidia.com/nim/reference/deepseek-ai-deepseek-v4-pro",
+    "name": "deepseek-ai / deepseek-v4-pro - NVIDIA API Documentation",
+    "snippet": "DeepSeek-V4-Pro is a Mixture-of-Experts (MoE) language model with 1.6 trillion total parameters and 49 billion activated parameters.",
+    "host_name": "docs.api.nvidia.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepseek.ai/deepseek-v4",
+    "name": "DeepSeek V4 (2026) — 1T Params, Benchmarks & Pricing",
+    "snippet": "Independent DeepSeek AI fan hub: free V4 chat, R1 reasoning guides, API tutorials & ChatGPT/Claude/Gemini comparisons. Updated 2026.",
+    "host_name": "deepseek.ai",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.together.ai/models/deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro API - Together AI",
+    "snippet": "DeepSeek V4 Pro is DeepSeek's 1.6T parameter (49B activated) MoE model supporting 1M token context. It introduces a hybrid attention ...",
+    "host_name": "www.together.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

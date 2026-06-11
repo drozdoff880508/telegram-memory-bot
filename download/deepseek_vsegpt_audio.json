@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://api-docs.deepseek.com",
+    "name": "DeepSeek API Docs: Your First API Call",
+    "snippet": "Once you have obtained an API key, you can access the DeepSeek model using the following example scripts in the OpenAI API format. This is a non-stream example, ...\nThe DeepSeek API uses an API format compatible with OpenAI/Anthropic. you can access the DeepSeek model using the following example scripts in the OpenAI API ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepinfra.com/blog/best-api-providers-for-deepseek-v4",
+    "name": "Best API Providers for DeepSeek V4 in 2026 - DeepInfra",
+    "snippet": "DeepSeek V4 is available across a range of hosted API providers, each with different pricing, performance, and deployment trade-offs.",
+    "host_name": "deepinfra.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://simonw.substack.com/p/deepseek-v4-and-the-end-of-the-openaimicrosoft",
+    "name": "DeepSeek v4, and the end of the OpenAI/Microsoft AGI clause",
+    "snippet": "Now that GPT-5.5 is available in the API, OpenAI have released a wealth of useful tips on how best to prompt the new model. Here's a neat trick ...",
+    "host_name": "simonw.substack.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.together.ai/docs/deepseek-v4-quickstart",
+    "name": "DeepSeek V4 Pro quickstart - Together AI docs",
+    "snippet": "On Together AI, it runs in FP4 with a 512K-token context window and supports streaming, function calling, structured outputs, and adjustable reasoning effort.",
+    "host_name": "docs.together.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com/quick_start/pricing",
+    "name": "Models & Pricing - DeepSeek API Docs",
+    "snippet": "(1) The model names deepseek-chat and deepseek-reasoner will be deprecated on 2026/07/24 15:59 UTC. For compatibility, they correspond to the non-thinking mode ...\nThe prices listed below are in units of per 1M tokens. We will bill based on the total number of input and output tokens by the model. Output ✓ ✓ Tool Calls ✓ ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aithority.com/machine-learning/from-gpt-5-5-to-deepseek-v4-how-developers-are-building-smarter-ai-agents-with-multi-model-routing-in-2026",
+    "name": "From GPT-5.5 to DeepSeek V4: How Developers Are Building",
+    "snippet": "April 2026 was the most intense month in the history of AI model releases. GPT-5.5 shipped on April 23. DeepSeek V4 Preview dropped 24 hours ...",
+    "host_name": "aithority.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sitepoint.com/deepseek-v4-released-whats-new-in-the-latest-model-2026",
+    "name": "DeepSeek V4 Released: What's New in the Latest Model (2026)",
+    "snippet": "This article projects likely architecture changes in a DeepSeek V4 and compares expected improvements against V3 across key dimensions. It ...",
+    "host_name": "www.sitepoint.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://modelslab.com/blog/api/deepseek-v4-api-pricing-comparison-2026",
+    "name": "DeepSeek V4 API Review: Pricing vs GPT-4o (2026) - ModelsLab",
+    "snippet": "DeepSeek V4 challenges GPT-4o at 18x lower cost. See benchmarks, pricing comparison, and how to access via ModelsLab API.",
+    "host_name": "modelslab.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://bibigpt.co/en/blog/posts/bibigpt-integrates-deepseek-v4-1m-context",
+    "name": "DeepSeek-V4 Is Here! BibiGPT Ships Four New Models + 1M",
+    "snippet": "In 2026, AI models are essentially like running water — DeepSeek V4, Gemini 3.1 Pro, Claude Opus 4.6 are all within reach. Models are no longer ...",
+    "host_name": "bibigpt.co",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://evolink.ai/blog/deepseek-v4-api-review-2026-flash-vs-pro-guide",
+    "name": "DeepSeek V4 API Review 2026: Flash vs Pro Guide - EvoLink",
+    "snippet": "DeepSeek V4 Flash is now a real low-cost production routing option; DeepSeek V4 Pro is now a real premium DeepSeek route worth benchmarking ...",
+    "host_name": "evolink.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

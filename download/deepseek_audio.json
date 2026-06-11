@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.mindstudio.ai/blog/deepseek-v4-vision-cheaper-multimodal-ai-workflows",
+    "name": "DeepSeek V4 Vision: 10x Cheaper Multimodal AI for Your Workflows",
+    "snippet": "DeepSeek V4 Vision refers to DeepSeek's latest generation large language model with native multimodal (image + text) input support. It uses ...",
+    "host_name": "www.mindstudio.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com",
+    "name": "DeepSeek API Docs: Your First API Call",
+    "snippet": "The DeepSeek API uses an API format compatible with OpenAI/Anthropic. By modifying the configuration, you can use the OpenAI/Anthropic SDK or softwares ...",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://soniox.com/blog/2026-02-05-soniox-v4-real-time",
+    "name": "Soniox v4 Real-Time: The new standard for real-time speech AI",
+    "snippet": "Today, we're releasing Soniox v4 Real-Time, a speech recognition model purpose-built for low-latency voice interactions.",
+    "host_name": "soniox.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/speechtech/comments/1kd9abp/i_benchmarked_12_speechtotext_apis_under_various",
+    "name": "I benchmarked 12+ speech-to-text APIs under various real-world",
+    "snippet": "Hi all, I recently ran a benchmark comparing a bunch of speech-to-text APIs and models under real-world conditions like noise robustness, ...",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=SZYpRkoazb0&vl=en",
+    "name": "Build An AI Voice Agent With DeepSeek R1 (Python) - YouTube",
+    "snippet": "Get your AssemblyAI API key here: https://www.assemblyai.com/?utm_source=youtube&utm_medium=referral&utm_campaign=yt_smit_28 Github repo: ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.chinatalk.media/p/deepseek-v4",
+    "name": "DeepSeek V4 - ChinaTalk",
+    "snippet": "Finally, DeepSeek V4 is here. The Pro and Flash models are available through DeepSeek's website, mobile apps, and API access as of April 23, ...",
+    "host_name": "www.chinatalk.media",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://deepinfra.com/models",
+    "name": "Models | Machine Learning Inference - DeepInfra",
+    "snippet": "DeepSeek V4 Flash is an efficiency-focused MoE model with 284B total parameters (13B active) and a 1M-token context window. It's tuned for fast inference and ...",
+    "host_name": "deepinfra.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.morphllm.com/deepseek-v4",
+    "name": "DeepSeek V4: Architecture, Benchmarks, and API Guide (2026)",
+    "snippet": "DeepSeek V4 launched April 24, 2026 with two models: V4-Pro (1.6T params, 49B active) and V4-Flash (284B, 13B active).",
+    "host_name": "www.morphllm.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openrouter.ai/models",
+    "name": "Models | OpenRouter",
+    "snippet": "... speech recognition model, available via API as `whisper-1`. It supports transcription and translation across 50+ languages from audio files up to 25 MB.",
+    "host_name": "openrouter.ai",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://picovoice.ai/blog/add-voice-to-deepseek",
+    "name": "DeepSeek Voice Mode Tutorial: Add Voice Chat with Python",
+    "snippet": "Complete guide to building a modular & low-latency ChatGPT voice assistant in Python. Add local speech recognition with OpenAI API. Full cod ...",
+    "host_name": "picovoice.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -42,7 +42,7 @@ async function handleAudio(ctx: any, db: DB, env: Env, audio: any, type: "voice"
     const audioBuffer = Buffer.from(await response.arrayBuffer());
     const fileName = type === "voice" ? `voice_${Date.now()}.ogg` : audio.file_name || `audio_${Date.now()}.mp3`;
 
-    // Transcribe with Whisper
+    // Transcribe audio (GigaChat Audio → Whisper fallback)
     const transcription = await transcribeAudio(env, audioBuffer, fileName, env.DEFAULT_LANGUAGE);
 
     // Save transcription as user message
@@ -62,8 +62,9 @@ async function handleAudio(ctx: any, db: DB, env: Env, audio: any, type: "voice"
 
     // Send transcription and analysis
     const durationStr = transcription.duration ? ` (${Math.round(transcription.duration)}с)` : "";
+    const asrModel = transcription.model === "GigaChat-ASR" ? "🇷🇺 GigaChat" : "🌐 Whisper";
     await ctx.reply(
-      `📝 **Расшифровка**${durationStr}:\n\n${transcription.text}\n\n---\n\n🧠 **Анализ:**\n${result.content}`,
+      `📝 **Расшифровка** ${asrModel}${durationStr}:\n\n${transcription.text}\n\n---\n\n🧠 **Анализ:**\n${result.content}`,
       { parse_mode: "Markdown" }
     );
   } catch (error: any) {

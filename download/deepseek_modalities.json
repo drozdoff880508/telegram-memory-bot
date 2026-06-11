@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.mindstudio.ai/blog/deepseek-v4-vision-cheaper-multimodal-ai-workflows",
+    "name": "DeepSeek V4 Vision: 10x Cheaper Multimodal AI for Your Workflows",
+    "snippet": "Vision Capabilities. DeepSeek V4 supports native vision input. You can pass images directly alongside text prompts, and the model handles:.",
+    "host_name": "www.mindstudio.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/DeepSeek/comments/1sw3u7i/deepseek_v4",
+    "name": "DeepSeek V4 - Reddit",
+    "snippet": "So if you need screenshots, image understanding, charts, PDFs as images, audio, or video, you will probably need another multimodal model.",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://api-docs.deepseek.com/news/news260424",
+    "name": "DeepSeek V4 Preview Release",
+    "snippet": "Performs on par with V4-Pro on simple Agent tasks. Smaller parameter size, faster response times, and highly cost-effective API pricing.",
+    "host_name": "api-docs.deepseek.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://help.apiyi.com/en/deepseek-v4-multimodal-trillion-parameter-model-guide-en.html",
+    "name": "Master the 5 Core Capabilities and API Integration Methods of",
+    "snippet": "Unlike its predecessor which was a pure text model, DeepSeek V4 is a native multimodal model. It processes text, images, video, and audio data simultaneously ...",
+    "host_name": "help.apiyi.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.aimlapi.com/api-references/text-models-llm/deepseek/deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash | AI/ML API Documentation",
+    "snippet": "Depending on the model you use, different message types (modalities) are supported, like text, documents (txt, pdf), images, and audio. Show ...",
+    "host_name": "docs.aimlapi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://emelia.io/hub/deepseek-v4-guide",
+    "name": "DeepSeek V4: Complete Guide to the 1T AI Model - Emelia.io",
+    "snippet": "What Are DeepSeek V4's Multimodal Capabilities? ; Text Generation. Writing, code, analysis, translation. Confirmed ; Image Understanding. Visual ...",
+    "host_name": "emelia.io",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.atlascloud.ai/models/deepseek-ai/deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro on Atlas Cloud: Fast Direct API Access Today",
+    "snippet": "Image GenerationGenerate images with models like Nano Banana 2, Z-Image, and more. Video CreationCreate videos from text or images with Kling, Vidu, Veo, etc.",
+    "host_name": "www.atlascloud.ai",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.bentoml.com/blog/the-complete-guide-to-deepseek-models-from-v3-to-r1-and-beyond",
+    "name": "The Complete Guide to DeepSeek Models: V3, R1, V4 and Beyond",
+    "snippet": "Understand the differences among DeepSeek-V3, R1, V3.1, V3.2, V4, and distilled models. Learn how to choose the right model and deploy them ...",
+    "host_name": "www.bentoml.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.api.nvidia.com/nim/reference/deepseek-ai-deepseek-v4-pro",
+    "name": "deepseek-ai / deepseek-v4-pro - NVIDIA API Documentation",
+    "snippet": "DeepSeek-V4-Pro is a Mixture-of-Experts (MoE) language model with 1.6 trillion total parameters and 49 billion activated parameters. It features a hybrid ...",
+    "host_name": "docs.api.nvidia.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openrouter.ai/models",
+    "name": "Models | OpenRouter",
+    "snippet": "It supports text, image, video, audio, and PDF inputs, and is designed for lightweight agentic workflows, simple data extraction, and applications where ...",
+    "host_name": "openrouter.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

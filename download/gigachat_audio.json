@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=yW-xsWVbxQY",
+    "name": "Build an AI Voice Assistant with Python 2026 - YouTube",
+    "snippet": "... audio PyAudio - low-latency audio input (microphone) pyttsx3 - offline text-to-speech (cross-platform) Python 3.8+ and VS Code If this ...",
+    "host_name": "www.youtube.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@codeinlife/10-real-time-ai-voice-apis-developers-should-know-in-2026-9ae4b5aef2f5",
+    "name": "10 Real-Time AI Voice APIs Developers Should Know in 2026",
+    "snippet": "A real-time AI voice API allows applications to hold live, two-way voice conversations with users. Instead of processing static audio files, ...",
+    "host_name": "medium.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.sber.ru/help/gigachat-api/convert-audio-to-text",
+    "name": "Преобразовать аудио в текст на русском - Sber Developer",
+    "snippet": "Рассмотрим два инструмента: GigaChat и SaluteSpeech. GigaChat. GigaChat — мощный инструмент Сбера для преобразования аудио в текст.",
+    "host_name": "developers.sber.ru",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pub.towardsai.net/voice-ai-in-2026-the-complete-stack-from-whisper-to-speaker-23e4de3ee3c4",
+    "name": "Voice AI in 2026: The Complete Stack From Whisper to Speaker",
+    "snippet": "Audio goes over WebSocket as raw PCM or mulaw. Web apps: Use the Web Audio API. Buffer incoming audio chunks and play them sequentially.",
+    "host_name": "pub.towardsai.net",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://giga.chat/help/articles/audio-modality",
+    "name": "Как мы научили ГигаЧат слышать: погружение в аудиомодальность",
+    "snippet": "Как обучить ИИ помощник ГигаЧат понимать речь? Узнайте про архитектуру моделей, обработку длинных аудиофайлов и объективную оценку качества ...",
+    "host_name": "giga.chat",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.speechmatics.com/company/articles-and-news/best-speech-to-text-ai-guide-apis-platforms-and-services-compared",
+    "name": "Best speech-to-text AI guide: APIs, platforms and services compared",
+    "snippet": "Compare the best speech-to-text AI platforms of 2026, including Speechmatics, Deepgram, AssemblyAI and more — find the right API for your ...",
+    "host_name": "www.speechmatics.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=O7NSH2SAwRc",
+    "name": "Как научить LLM слышать: GigaAM GigaChat Audio - YouTube",
+    "snippet": "Audio Foundation Models и зачем они нужны. — Как улучшили методику предобучения за время, прошедшее с релиза GigaAM. — Как сделать LLM, с ...",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://usevoicy.com/blog/best-speech-to-text-api",
+    "name": "Best Speech to Text APIs for Developers in 2026 - Voicy",
+    "snippet": "Compare the top 10 speech to text APIs for developers. OpenAI Whisper, AssemblyAI, Deepgram, AWS Transcribe, and more.",
+    "host_name": "usevoicy.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/edition-53-speech-to-text-apis-2026-benchmarks-pricing-developers-vpxdc",
+    "name": "Edition 53: Speech-to-Text APIs in 2026: Benchmarks, Pricing",
+    "snippet": "Every speech-to-text vendor in 2026 claims \"best-in-class accuracy\" and \"sub-100ms latency.\" Those numbers almost always come from clean ...",
+    "host_name": "www.linkedin.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.artifilog.com/posts/free-ai-voice-api-2026",
+    "name": "Free AI Voice APIs in 2026: A Developer's Decision Framework",
+    "snippet": "The demo page voices reportedly sound better than the production API, which developers discovered only after integrating. The temporal precision ...",
+    "host_name": "www.artifilog.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
