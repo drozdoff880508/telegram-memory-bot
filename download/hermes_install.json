@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=CwPUOVUdApE&vl=en",
+    "name": "Hermes Agent: The Ultimate Beginner's Guide - YouTube",
+    "snippet": "In this Hermes Agent setup tutorial, I walk you through the full setup step by step. From deployment to connecting Telegram, creating custom ...",
+    "host_name": "www.youtube.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mindstudio.ai/blog/hermes-agent-vps-telegram-setup-guide",
+    "name": "How to Set Up Hermes Agent on a VPS with Telegram in Under 30",
+    "snippet": "How to Set Up Hermes Agent on a VPS with Telegram in Under 30 Minutes: Complete Setup Guide · Step 1: Spin Up Your VPS on Hostinger · Step 2: ...",
+    "host_name": "www.mindstudio.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=r5FrGDTCYSg",
+    "name": "The ONLY Hermes Agent Tutorial You Need 2026 - YouTube",
+    "snippet": "... guide-to-hermes-agent?p=8f07bbb7 Most people are still ... We deploy it on a Hostinger VPS, connect it to Telegram, set up your ...",
+    "host_name": "www.youtube.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/hermesagent/comments/1sc68wx/how_to_setup_telegram_hermes_070_on_a_vps_in",
+    "name": "How to setup Telegram? (Hermes 0.70 on a vps in docker) - Reddit",
+    "snippet": "I try for 3 days to setup Telegram (took a few Minutes in OpenClaw). It's only echoing my messages. tried hermes gateway setup tried let the ...",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hermes-agent.nousresearch.com/docs/guides/team-telegram-assistant",
+    "name": "Tutorial: Team Telegram Assistant - Hermes Agent",
+    "snippet": "Set Up a Team Telegram Assistant. This tutorial walks you through setting up a Telegram bot powered by Hermes Agent that multiple team members can use.\nThis tutorial walks you through setting up a Telegram bot powered by Hermes Agent that multiple team members can use. Hermes Agent installed on a server or VPS",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@mohit15856/i-set-up-hermes-agent-on-a-4-vps-for-pm-workflows-full-walkthrough-a89c433237dc",
+    "name": "I Set Up Hermes Agent on a £4 VPS for PM Workflows - Medium",
+    "snippet": "Step 1: Install Hermes Agent (5 minutes) · Step 2: Connect Your LLM Provider (3 minutes) · Step 3: Connect a Messaging Gateway (10 minutes).",
+    "host_name": "medium.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/OnlyTerp/hermes-optimization-guide",
+    "name": "OnlyTerp/hermes-optimization-guide - GitHub",
+    "snippet": "Current through Hermes Agent v0.14.0 (v2026.5.16) · 24 parts, 13 installable guide skills, 5 opinionated configs, 4 reference architectures, ...",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=uycgV-eulGE",
+    "name": "Full Hermes Agent Setup Tutorial: Step-by-Step Walkthrough",
+    "snippet": "... VPS with a one click template to connecting Telegram, installing skills, and creating automated jobs ... Hermes Agent - Full Course & Setup Guide ...\n... VPS with a one click template to connecting Telegram, installing skills, and creating automated jobs. ✓ Hermes Agent VPS ... Hostinger VPS Setup ...",
+    "host_name": "www.youtube.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.interserver.net/tips/kb/deploy-hermes-agent-on-your-vps-and-talk-to-it-from-telegram-24-7",
+    "name": "Deploy Hermes Agent on Your VPS and Talk to It from Telegram 24/7",
+    "snippet": "Step 1: Set Up Your VPS · Step 2: Install Hermes Agent · Step 3: Configure Your Model Provider · Step 4: Set Up the Messaging Gateway with Telegram.",
+    "host_name": "www.interserver.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/hermesagent/comments/1rt5syt/complete_hermes_agent_setup_guide",
+    "name": "Complete Hermes Agent Setup Guide : r/hermesagent - Reddit",
+    "snippet": "Installation Step 1: Run the Installer curl. This will guide you through configuring each platform. Telegram Open Telegram and message. Connect ...",
+    "host_name": "www.reddit.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

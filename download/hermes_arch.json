@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://hermes-agent.nousresearch.com/docs",
+    "name": "Hermes Agent Documentation",
+    "snippet": "The self-improving AI agent built by Nous Research. A built-in learning loop that creates skills from experience, improves them during use, and remembers ...",
+    "host_name": "hermes-agent.nousresearch.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mranand.substack.com/p/inside-hermes-agent-how-a-self-improving",
+    "name": "Inside Hermes Agent: How a Self-Improving AI Agent Actually Works",
+    "snippet": "It uses a dialectic modeling approach, modeling both you and the agent in relation to each other across 12 identity layers.\nThis article breaks down the learning loop, the four-layer memory system, the gateway, agent loop internals, terminal backends, skills, tools, ...",
+    "host_name": "mranand.substack.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/WebAfterAI/comments/1sx4748/hermes_agent_the_opensource_selfimproving_ai",
+    "name": "Hermes Agent: The Open-Source Self-Improving AI Agent  - Reddit",
+    "snippet": "Hermes runs persistently on a server, maintains long-term memory across sessions, automatically creates and refines reusable skills, and even ...\nHermes Agent: The Open-Source Self-Improving AI Agent That Actually Learns, Remembers, and Grows With You (Self-Hosted by Nous Research).",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/3670562573177653/posts/4528361400731095",
+    "name": "How a Self-Improving AI Agent Actually Works (April 2026) \"Hermes",
+    "snippet": "Most agents recall what happened, but Hermes goes one step further: it extracts what worked, writes it as a reusable skill, and loads it the ...\nThis article breaks down the learning loop, the four- layer memory system, the gateway, agent loop internals, terminal backends, skills, tools, ...",
+    "host_name": "www.facebook.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://kisztof.medium.com/hermes-agent-review-nous-researchs-self-improving-ai-agent-e72bc244435a",
+    "name": "Hermes Agent: the first AI agent that keeps what it learns",
+    "snippet": "I'll walk through how the skill-creation mechanic works so you can judge whether “self-improving” means something mechanical or something ...",
+    "host_name": "kisztof.medium.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://tosea.ai/blog/hermes-agent-self-improving-ai-guide",
+    "name": "How to Use Hermes Agent: Complete Guide to the Self-Improving AI",
+    "snippet": "A complete guide to Hermes Agent, the open-source self-improving AI by Nous Research. Covers architecture, install, messaging integrations, ...",
+    "host_name": "tosea.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://saulius.io/blog/hermes-agent-self-improving-ai-architecture",
+    "name": "What 'Self-Improving AI Agent' Actually Means in Production",
+    "snippet": "Persistent memory is the standard \"self-improving\" claim, and everyone does it a little differently. Hermes's approach has some production- ...\nA source-level audit of Nous Research's hermes-agent. The 'self-improving' label cashes out as four orthogonal mechanisms — skill ...",
+    "host_name": "saulius.io",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=HdxtLpL9CC8",
+    "name": "Hermes: The Self-Improving Agent That Gets Smarter Every Day",
+    "snippet": "Hermes is the open-source AI agent by Nous Research that actually learns from you, it remembers every conversation, searches past sessions ...",
+    "host_name": "www.youtube.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://yuv.ai/blog/hermes-agent",
+    "name": "Hermes Agent: Self-Improving AI with Persistent Memory | YUV.AI Blog",
+    "snippet": "The project Hermes Agent by Nous Research enables AI agents to remember previous sessions, learn from interactions, and autonomously develop new ...\nHermes Agent is a self-improving AI agent with cross-session memory and autonomous skill creation capabilities. Created by Nous Research, it ...",
+    "host_name": "yuv.ai",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/nousresearch/hermes-agent",
+    "name": "NousResearch/hermes-agent: The agent that grows with you - GitHub",
+    "snippet": "Agent-curated memory with periodic nudges. Autonomous skill creation after complex tasks. Skills self-improve during use. FTS5 session search ...",
+    "host_name": "github.com",
+    "rank": 9,
+    "date": "Jun 9, 2026",
+    "favicon": ""
+  }
+]
