@@ -305,19 +305,24 @@ async def handle_photo(message: Message):
     await message.chat.do("typing")
 
     try:
-        # Use medium photo size (not the largest) to save tokens/money
-        photo = message.photo[1] if len(message.photo) > 2 else message.photo[-1]
-        file_info = await message.bot.get_file(photo.file_id)
-        file_data = await _download_telegram_file(file_info.file_path)
+        # Check if this is a receipt (caption contains "чек", "receipt", etc.)
+        is_receipt = any(word in caption.lower() for word in ["чек", "receipt", "счёт", "счет", "квитанция"])
 
-        # Resize image to save tokens (max 768px width)
-        file_data = _resize_image(file_data, max_width=768)
+        # For receipts: use largest photo + higher resolution (text is small)
+        # For regular photos: medium size to save money
+        if is_receipt:
+            photo = message.photo[-1]
+            file_info = await message.bot.get_file(photo.file_id)
+            file_data = await _download_telegram_file(file_info.file_path)
+            file_data = _resize_image(file_data, max_width=1280, quality=85)
+        else:
+            photo = message.photo[1] if len(message.photo) > 2 else message.photo[-1]
+            file_info = await message.bot.get_file(photo.file_id)
+            file_data = await _download_telegram_file(file_info.file_path)
+            file_data = _resize_image(file_data, max_width=768)
 
         b64 = base64.b64encode(file_data).decode()
         image_url = f"data:image/jpeg;base64,{b64}"
-
-        # Check if this is a receipt (caption contains "чек", "receipt", etc.)
-        is_receipt = any(word in caption.lower() for word in ["чек", "receipt", "счёт", "счет", "квитанция"])
 
         if is_receipt:
             await message.answer("🧾 Распознаю чек...")
@@ -394,6 +399,42 @@ async def handle_voice(message: Message):
 
         if transcription.startswith("❌"):
             await message.answer(transcription)
+            return
+
+        # Check if voice contains a reminder/expense/note request
+        reminder = await llm.extract_reminder(transcription)
+        if reminder:
+            minutes = reminder["minutes"]
+            remind_text = reminder["text"]
+            remind_at = time.time() + minutes * 60
+            reminder_id = memory.add_reminder(user_id, remind_text, remind_at)
+            when = datetime.fromtimestamp(remind_at).strftime("%d.%m.%Y %H:%M")
+            result = (
+                f"🎤 Транскрипция:\n{transcription}\n\n"
+                f"⏰ Напомню {when}:\n{remind_text}\n\n"
+                f"(/cancel {reminder_id} — отменить)"
+            )
+            memory.add_message(user_id, "user", f"[голосовое] {transcription}")
+            memory.add_message(user_id, "assistant", f"⏰ Напоминание установлено на {when}")
+            await _send_long_message(message, result)
+            return
+
+        expense_info = await llm.extract_expense(transcription)
+        if expense_info:
+            amount = expense_info.get("amount", 0)
+            currency = expense_info.get("currency", "RUB")
+            category = expense_info.get("category", "Другое")
+            description = expense_info.get("description", "")
+            expense_id = memory.add_expense(user_id, amount, currency, category, description, source="voice")
+            result = (
+                f"🎤 Транскрипция:\n{transcription}\n\n"
+                f"🧾 Расход записан:\n"
+                f"💰 {amount:.0f} {currency} | {category} | {description}\n"
+                f"(#{expense_id}, /delexp {expense_id} — удалить)"
+            )
+            memory.add_message(user_id, "user", f"[голосовое] {transcription}")
+            memory.add_message(user_id, "assistant", f"🧾 Расход записан: {amount:.0f}{currency}")
+            await _send_long_message(message, result)
             return
 
         # Summarize key points
