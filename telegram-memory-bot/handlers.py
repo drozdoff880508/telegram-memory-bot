@@ -226,15 +226,19 @@ async def handle_photo(message: Message):
     await message.chat.do("typing")
 
     try:
-        photo = message.photo[-1]
+        # Use medium photo size (not the largest) to save tokens/money
+        photo = message.photo[1] if len(message.photo) > 2 else message.photo[-1]
         file_info = await message.bot.get_file(photo.file_id)
         file_data = await _download_telegram_file(file_info.file_path)
+
+        # Resize image to save tokens (max 768px width)
+        file_data = _resize_image(file_data, max_width=768)
+
         b64 = base64.b64encode(file_data).decode()
         image_url = f"data:image/jpeg;base64,{b64}"
 
-        history = memory.get_history(user_id)
-        profile = memory.get_profile(user_id)
-        response = await llm.analyze_image(image_url, prompt, history, profile)
+        # Don't send history with images — saves tokens
+        response = await llm.analyze_image(image_url, prompt)
 
         memory.add_message(user_id, "user", f"[изображение] {prompt}")
         memory.add_message(user_id, "assistant", response)
@@ -372,6 +376,38 @@ async def _download_telegram_file(file_path: str) -> bytes:
             resp.raise_for_status()
             logger.info(f"Downloaded file (direct): {file_path} ({len(resp.content)} bytes)")
             return resp.content
+
+
+def _resize_image(data: bytes, max_width: int = 768, quality: int = 75) -> bytes:
+    """Resize image to reduce token count and cost."""
+    try:
+        from PIL import Image
+        import io
+
+        img = Image.open(io.BytesIO(data))
+
+        # Convert RGBA to RGB if needed
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
+        # Resize if wider than max_width
+        if img.width > max_width:
+            ratio = max_width / img.width
+            new_height = int(img.height * ratio)
+            img = img.resize((max_width, new_height), Image.LANCZOS)
+
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", quality=quality, optimize=True)
+        result = buf.getvalue()
+        logger.info(f"Image resized: {len(data)} -> {len(result)} bytes")
+        return result
+    except ImportError:
+        # PIL not available — return original
+        logger.warning("PIL not available, sending original image")
+        return data
+    except Exception as e:
+        logger.warning(f"Image resize failed: {e}, sending original")
+        return data
 
 
 async def _update_profile_background(user_id: int):

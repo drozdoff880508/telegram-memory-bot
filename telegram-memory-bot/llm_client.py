@@ -126,16 +126,12 @@ class LLMClient:
         profile: str = "",
     ) -> str:
         """Analyze an image using a vision-capable model."""
-        system_content = Config.SYSTEM_PROMPT
-        if profile:
-            system_content += f"\n\n[Профиль пользователя]: {profile}"
+        # Short system prompt for vision — saves tokens
+        system_content = "Ты ИИ-ассистент. Отвечай кратко на русском."
 
         full_messages = [{"role": "system", "content": system_content}]
 
-        if messages:
-            for msg in messages[-10:]:
-                if msg["role"] != "system":
-                    full_messages.append(msg)
+        # Don't include history — images are expensive enough
 
         full_messages.append(
             {
@@ -151,7 +147,7 @@ class LLMClient:
             response = await self.client.chat.completions.create(
                 model=Config.VISION_MODEL,
                 messages=full_messages,
-                max_tokens=Config.MAX_TOKENS,
+                max_tokens=500,  # Reduced from 2000 — shorter answers save money
                 temperature=Config.TEMPERATURE,
             )
             return response.choices[0].message.content or ""
