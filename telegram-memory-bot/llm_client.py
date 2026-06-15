@@ -171,7 +171,7 @@ class LLMClient:
             logger.info(f"Transcribing audio: {len(audio_data)} bytes, file={temp_path}")
 
             # Try multiple model names that VseGPT might accept
-            models_to_try = [Config.STT_MODEL, "whisper-1", "openai/whisper"]
+            models_to_try = [Config.STT_MODEL, "stt-openai/whisper-1", "stt-openai/gpt-4o-mini-transcribe"]
             last_error = None
 
             for model_name in models_to_try:
@@ -200,7 +200,7 @@ class LLMClient:
                         resp = await http_client.post(
                             f"{Config.LLM_BASE_URL}/audio/transcriptions",
                             headers={"Authorization": f"Bearer {Config.LLM_API_KEY}"},
-                            data={"model": "whisper-1", "language": "ru", "response_format": "text"},
+                            data={"model": "stt-openai/whisper-1", "language": "ru", "response_format": "text"},
                             files={"file": ("audio.ogg", audio_file, "audio/ogg")},
                         )
                     if resp.status_code == 200:

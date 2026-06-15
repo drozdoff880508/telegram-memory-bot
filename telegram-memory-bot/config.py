@@ -18,8 +18,8 @@ class Config:
     # Vision model (for image analysis)
     VISION_MODEL: str = os.getenv("VISION_MODEL", "openai/gpt-4o-mini")
 
-    # STT model (for voice transcription)
-    STT_MODEL: str = os.getenv("STT_MODEL", "openai/whisper-1")
+    # STT model (for voice transcription) — VseGPT uses stt- prefix
+    STT_MODEL: str = os.getenv("STT_MODEL", "stt-openai/whisper-1")
 
     # Memory
     DB_PATH: str = os.getenv("DB_PATH", "bot_memory.db")
