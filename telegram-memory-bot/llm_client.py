@@ -121,7 +121,7 @@ class LLMClient:
     async def analyze_image(
         self,
         image_url: str,
-        prompt: str = "Опиши что на этой картинке.",
+        prompt: str = "Опиши что на этой картнике.",
         messages: list[dict] | None = None,
         profile: str = "",
     ) -> str:
@@ -138,7 +138,7 @@ class LLMClient:
                 "role": "user",
                 "content": [
                     {"type": "text", "text": prompt},
-                    {"type": "image_url", "image_url": {"url": image_url}},
+                    {"type": "image_url", "image_url": {"url": image_url, "detail": "auto"}},
                 ],
             }
         )
@@ -147,7 +147,7 @@ class LLMClient:
             response = await self.client.chat.completions.create(
                 model=Config.VISION_MODEL,
                 messages=full_messages,
-                max_tokens=500,  # Reduced from 2000 — shorter answers save money
+                max_tokens=500,
                 temperature=Config.TEMPERATURE,
             )
             return response.choices[0].message.content or ""
@@ -198,39 +198,35 @@ class LLMClient:
             return None
 
     async def extract_receipt(self, image_url: str) -> Optional[dict]:
-        """Extract receipt data from an image using vision model.
+        """Extract receipt data from an image using a cheap vision model.
 
         Returns dict with 'amount', 'currency', 'category', 'description' or None.
+        Uses RECEIPT_MODEL (cheaper, good at OCR) instead of VISION_MODEL.
         """
         prompt = (
-            "Внимательно посмотри на изображение. Это может быть кассовый чек, квитанция, счёт из ресторана, электронный чек или скриншот оплаты.\n"
-            "Если на изображении есть любая информация о покупке/оплате — извлеки данные.\n"
-            "Если точно НЕ чек/оплата — верни JSON: {\"receipt\": false}\n"
-            "Если чек/оплата — верни JSON:\n"
-            "{\"receipt\": true, \"amount\": ЧИСЛО, \"currency\": \"RUB\", \"category\": \"КАТЕГОРИЯ\", \"description\": \"ОПИСАНИЕ\"}\n\n"
-            "Правила:\n"
-            "- amount — ИТОГОВАЯ сумма к оплате (число, без пробелов). Если есть несколько сумм — бери итоговую/финальную\n"
-            "- Если сумма в долларах/евро — currency: USD/EUR, иначе RUB\n"
-            "- category — выбери одну из: Продукты, Ресторан, Транспорт, Топливо, Аптека, Одежда, Жильё, Связь, Развлечения, Подписки, Здоровье, Образование, Подарки, Другое\n"
-            "- description — кратко что куплено (до 100 символов), например: 'Пятёрочка продукты' или 'Яндекс Такси'\n"
-            "- Если текст размыт или нечитаем — всё равно попробуй определить что это и примерную сумму\n"
-            "- Если это скриншот перевода/оплаты — тоже считай чеком\n"
-            "- ВАЖНО: Отвечай ТОЛЬКО JSON, без пояснений"
+            "Это кассовый чек, квитанция, счёт или скриншот оплаты.\n"
+            "Если есть информация о покупке — верни JSON:\n"
+            "{\"receipt\": true, \"amount\": ЧИСЛО, \"currency\": \"RUB\", \"category\": \"КАТЕГОРИЯ\", \"description\": \"ОПИСАНИЕ\"}\n"
+            "Если НЕ чек — верни: {\"receipt\": false}\n\n"
+            "amount=итоговая сумма(число). currency=RUB(или USD/EUR).\n"
+            "category: Продукты,Ресторан,Транспорт,Топливо,Аптека,Одежда,Жильё,Связь,Развлечения,Подписки,Здоровье,Образование,Подарки,Другое\n"
+            "description=что куплено(до 80 символов). Скриншот оплаты=чек.\n"
+            "ТОЛЬКО JSON."
         )
         try:
             response = await self.client.chat.completions.create(
-                model=Config.VISION_MODEL,
+                model=Config.RECEIPT_MODEL,
                 messages=[
-                    {"role": "system", "content": "Ты парсер чеков. Отвечай ТОЛЬКО JSON."},
+                    {"role": "system", "content": "Парсер чеков. Только JSON."},
                     {
                         "role": "user",
                         "content": [
                             {"type": "text", "text": prompt},
-                            {"type": "image_url", "image_url": {"url": image_url}},
+                            {"type": "image_url", "image_url": {"url": image_url, "detail": "high"}},
                         ],
                     },
                 ],
-                max_tokens=300,
+                max_tokens=150,
                 temperature=0.1,
             )
             import json

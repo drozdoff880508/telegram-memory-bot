@@ -308,13 +308,13 @@ async def handle_photo(message: Message):
         # Check if this is a receipt (caption contains "чек", "receipt", etc.)
         is_receipt = any(word in caption.lower() for word in ["чек", "receipt", "счёт", "счет", "квитанция"])
 
-        # For receipts: use largest photo + higher resolution (text is small)
+        # For receipts: use medium photo + 768px (Gemini reads well at this size)
         # For regular photos: medium size to save money
         if is_receipt:
             photo = message.photo[-1]
             file_info = await message.bot.get_file(photo.file_id)
             file_data = await _download_telegram_file(file_info.file_path)
-            file_data = _resize_image(file_data, max_width=1280, quality=85)
+            file_data = _resize_image(file_data, max_width=768, quality=80)
         else:
             photo = message.photo[1] if len(message.photo) > 2 else message.photo[-1]
             file_info = await message.bot.get_file(photo.file_id)

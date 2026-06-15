@@ -15,8 +15,11 @@ class Config:
     LLM_BASE_URL: str = os.getenv("LLM_BASE_URL", "https://api.vsegpt.ru/v1")
     LLM_MODEL: str = os.getenv("LLM_MODEL", "deepseek/deepseek-chat")
 
-    # Vision model (for image analysis)
-    VISION_MODEL: str = os.getenv("VISION_MODEL", "openai/gpt-4o-mini")
+    # Vision model (for general image analysis)
+    VISION_MODEL: str = os.getenv("VISION_MODEL", "vis-openai/gpt-4o-mini")
+
+    # Receipt model (cheaper, good at OCR)
+    RECEIPT_MODEL: str = os.getenv("RECEIPT_MODEL", "vis-google/gemini-flash-1.5")
 
     # STT model (for voice transcription) — VseGPT uses stt- prefix
     STT_MODEL: str = os.getenv("STT_MODEL", "stt-openai/whisper-1")
