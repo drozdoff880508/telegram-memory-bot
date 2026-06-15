@@ -3,8 +3,10 @@
 import asyncio
 import base64
 import logging
+import os
 import re
 import time
+import traceback
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -239,8 +241,8 @@ async def handle_photo(message: Message):
 
         await _send_long_message(message, response)
     except Exception as e:
-        logger.error(f"Photo error: {e}")
-        await message.answer(f"❌ Ошибка: {str(e)[:100]}")
+        logger.error(f"Photo error: {type(e).__name__}: {e}\n{traceback.format_exc()}")
+        await message.answer(f"❌ Ошибка фото ({type(e).__name__}): {str(e)[:150]}")
 
 
 # ── Voice/Audio Handler ────────────────────────────────────
@@ -281,8 +283,8 @@ async def handle_voice(message: Message):
 
         await _send_long_message(message, result)
     except Exception as e:
-        logger.error(f"Voice error: {e}")
-        await message.answer(f"❌ Ошибка обработки: {str(e)[:100]}")
+        logger.error(f"Voice error: {type(e).__name__}: {e}\n{traceback.format_exc()}")
+        await message.answer(f"❌ Ошибка голосового ({type(e).__name__}): {str(e)[:150]}")
 
 
 # ── Text Handler (main chat) ───────────────────────────────
@@ -347,11 +349,29 @@ async def handle_text(message: Message):
 # ── Helpers ─────────────────────────────────────────────────
 
 async def _download_telegram_file(file_path: str) -> bytes:
-    download_url = f"https://api.telegram.org/file/bot{Config.BOT_TOKEN}/{file_path}"
-    async with httpx.AsyncClient(timeout=30) as client:
-        resp = await client.get(download_url)
-        resp.raise_for_status()
-        return resp.content
+    # Try fallback IP first (Russia blocks api.telegram.org)
+    if Config.TELEGRAM_FALLBACK_IP:
+        download_url = f"https://{Config.TELEGRAM_FALLBACK_IP}/file/bot{Config.BOT_TOKEN}/{file_path}"
+    else:
+        download_url = f"https://api.telegram.org/file/bot{Config.BOT_TOKEN}/{file_path}"
+
+    headers = {"Host": "api.telegram.org"}
+
+    try:
+        async with httpx.AsyncClient(timeout=30, verify=False) as client:
+            resp = await client.get(download_url, headers=headers)
+            resp.raise_for_status()
+            logger.info(f"Downloaded file: {file_path} ({len(resp.content)} bytes)")
+            return resp.content
+    except Exception as e:
+        logger.warning(f"Download via fallback IP failed: {type(e).__name__}: {e}")
+        # Try normal URL as fallback
+        download_url2 = f"https://api.telegram.org/file/bot{Config.BOT_TOKEN}/{file_path}"
+        async with httpx.AsyncClient(timeout=30) as client:
+            resp = await client.get(download_url2)
+            resp.raise_for_status()
+            logger.info(f"Downloaded file (direct): {file_path} ({len(resp.content)} bytes)")
+            return resp.content
 
 
 async def _update_profile_background(user_id: int):

@@ -1,7 +1,9 @@
 """LLM client — DeepSeek / VseGPT via OpenAI-compatible API."""
 
 import logging
+import os
 import tempfile
+import traceback
 from typing import Optional
 
 import httpx
@@ -159,42 +161,64 @@ class LLMClient:
 
     async def transcribe_audio(self, audio_data: bytes) -> str:
         """Transcribe audio using Whisper via VseGPT."""
+        temp_path = None
         try:
             # Write to temp file (Whisper API needs a file)
             with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as f:
                 f.write(audio_data)
                 temp_path = f.name
 
-            with open(temp_path, "rb") as audio_file:
-                transcription = await self.client.audio.transcriptions.create(
-                    model=Config.STT_MODEL,
-                    file=audio_file,
-                    response_format="text",
-                    language="ru",
-                )
+            logger.info(f"Transcribing audio: {len(audio_data)} bytes, file={temp_path}")
 
-            # Cleanup temp file
-            import os
-            os.unlink(temp_path)
+            # Try multiple model names that VseGPT might accept
+            models_to_try = [Config.STT_MODEL, "whisper-1", "openai/whisper"]
+            last_error = None
 
-            return transcription if isinstance(transcription, str) else str(transcription)
-        except Exception as e:
-            logger.error(f"Transcription error: {e}")
-            # Try alternative model name
+            for model_name in models_to_try:
+                try:
+                    logger.info(f"Trying STT model: {model_name}")
+                    with open(temp_path, "rb") as audio_file:
+                        transcription = await self.client.audio.transcriptions.create(
+                            model=model_name,
+                            file=audio_file,
+                            response_format="text",
+                            language="ru",
+                        )
+                    result = transcription if isinstance(transcription, str) else str(transcription)
+                    logger.info(f"Transcription OK (model={model_name}): {result[:100]}")
+                    return result
+                except Exception as model_err:
+                    last_error = model_err
+                    logger.warning(f"STT model {model_name} failed: {type(model_err).__name__}: {model_err}")
+                    continue
+
+            # All models failed - try direct HTTP request as last resort
+            logger.info("Trying direct HTTP transcription request...")
             try:
-                with open(temp_path, "rb") as audio_file:
-                    transcription = await self.client.audio.transcriptions.create(
-                        model="whisper-1",
-                        file=audio_file,
-                        response_format="text",
-                        language="ru",
-                    )
-                import os
+                async with httpx.AsyncClient(timeout=30) as http_client:
+                    with open(temp_path, "rb") as audio_file:
+                        resp = await http_client.post(
+                            f"{Config.LLM_BASE_URL}/audio/transcriptions",
+                            headers={"Authorization": f"Bearer {Config.LLM_API_KEY}"},
+                            data={"model": "whisper-1", "language": "ru", "response_format": "text"},
+                            files={"file": ("audio.ogg", audio_file, "audio/ogg")},
+                        )
+                    if resp.status_code == 200:
+                        result = resp.text
+                        logger.info(f"Direct HTTP transcription OK: {result[:100]}")
+                        return result
+                    else:
+                        logger.error(f"Direct HTTP failed: {resp.status_code} {resp.text[:200]}")
+            except Exception as http_err:
+                logger.error(f"Direct HTTP transcription error: {http_err}")
+
+            return f"❌ Все модели STT не сработали: {type(last_error).__name__}: {str(last_error)[:100]}"
+        except Exception as e:
+            logger.error(f"Transcription error: {type(e).__name__}: {e}\n{traceback.format_exc()}")
+            return f"❌ Ошибка транскрипции: {type(e).__name__}: {str(e)[:100]}"
+        finally:
+            if temp_path and os.path.exists(temp_path):
                 os.unlink(temp_path)
-                return transcription if isinstance(transcription, str) else str(transcription)
-            except Exception as e2:
-                logger.error(f"Transcription fallback error: {e2}")
-                return f"❌ Ошибка транскрипции: {str(e2)[:100]}"
 
     async def summarize_text(self, text: str, instruction: str = "Выдели главное") -> str:
         """Summarize/extract key points from text."""
