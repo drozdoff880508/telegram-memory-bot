@@ -15,8 +15,11 @@ class Config:
     LLM_BASE_URL: str = os.getenv("LLM_BASE_URL", "https://api.vsegpt.ru/v1")
     LLM_MODEL: str = os.getenv("LLM_MODEL", "deepseek/deepseek-chat")
 
-    # Vision model (separate, for image analysis)
+    # Vision model (for image analysis)
     VISION_MODEL: str = os.getenv("VISION_MODEL", "openai/gpt-4o-mini")
+
+    # STT model (for voice transcription)
+    STT_MODEL: str = os.getenv("STT_MODEL", "openai/whisper-1")
 
     # Memory
     DB_PATH: str = os.getenv("DB_PATH", "bot_memory.db")
@@ -30,8 +33,10 @@ class Config:
     # System prompt
     SYSTEM_PROMPT: str = os.getenv(
         "SYSTEM_PROMPT",
-        "Ты полезный ИИ-ассистент с памятью. Отвечай кратко и по делу на языке пользователя. "
-        "Помни контекст разговора и предпочтения пользователя.",
+        "Ты персональный ИИ-ассистент. Умеешь: помнить контекст, ставить напоминания, "
+        "искать в интернете, анализировать картинки и голосовые сообщения, делать заметки. "
+        "Отвечай кратко на языке пользователя. Если просят напомнить — используй /remind. "
+        "Если просят записать — используй /note. Если нужен поиск — используй /search.",
     )
 
     # Allowed users (comma-separated Telegram IDs, empty = allow all)
@@ -43,6 +48,9 @@ class Config:
 
     # Telegram API fallback IP (for Russia where api.telegram.org is blocked)
     TELEGRAM_FALLBACK_IP: str = os.getenv("TELEGRAM_FALLBACK_IP", "")
+
+    # Reminder check interval (seconds)
+    REMINDER_CHECK_INTERVAL: int = int(os.getenv("REMINDER_CHECK_INTERVAL", "30"))
 
     @classmethod
     def validate(cls) -> list[str]:

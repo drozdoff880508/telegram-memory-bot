@@ -1,9 +1,11 @@
-"""Telegram bot handlers — message processing and commands."""
+"""Telegram bot handlers — messages, commands, reminders, notes, search."""
 
 import asyncio
 import base64
 import logging
+import re
 import time
+from datetime import datetime, timedelta
 from typing import Optional
 
 import httpx
@@ -14,32 +16,33 @@ from aiogram.filters import CommandStart, Command
 from config import Config
 from memory import Memory
 from llm_client import LLMClient
+from web_search import search_and_summarize
 
 logger = logging.getLogger(__name__)
 
 router = Router()
 
-# These will be set from main.py
 memory: Optional[Memory] = None
 llm: Optional[LLMClient] = None
+bot_instance = None  # Will be set from main.py for sending reminders
 
-# Profile update interval (every N messages per user)
 PROFILE_UPDATE_INTERVAL = 10
 
 
-def init(memory_instance: Memory, llm_instance: LLMClient):
-    """Initialize handlers with shared instances."""
-    global memory, llm
+def init(memory_instance: Memory, llm_instance: LLMClient, bot=None):
+    global memory, llm, bot_instance
     memory = memory_instance
     llm = llm_instance
+    bot_instance = bot
 
 
 def is_allowed(user_id: int) -> bool:
-    """Check if user is allowed to use the bot."""
     if not Config.ALLOWED_USERS:
         return True
     return user_id in Config.ALLOWED_USERS
 
+
+# ── Commands ────────────────────────────────────────────────
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
@@ -48,13 +51,16 @@ async def cmd_start(message: Message):
         return
 
     await message.answer(
-        "👋 Привет! Я ИИ-ассистент с памятью.\n\n"
-        "Я запоминаю наш разговор и твои предпочтения.\n\n"
-        "📋 Команды:\n"
-        "/clear — очистить историю\n"
-        "/profile — мой профиль\n"
-        "/stats — статистика\n"
-        "/help — помощь"
+        "👋 Привет! Я персональный ИИ-ассистент.\n\n"
+        "Умею:\n"
+        "💬 Общаться и помнить контекст\n"
+        "🎤 Расшифровывать голосовые сообщения\n"
+        "🖼️ Анализировать картинки\n"
+        "⏰ Напоминать о событиях\n"
+        "🔍 Искать в интернете\n"
+        "📝 Делать заметки\n\n"
+        "Просто напиши «напомни через 30 минут позвонить» или «запомни: пароль от wifi — abc123»\n\n"
+        "📋 /help — все команды"
     )
 
 
@@ -64,14 +70,22 @@ async def cmd_help(message: Message):
         return
 
     await message.answer(
-        "🤖 ИИ-ассистент с памятью\n\n"
-        "Просто напиши мне — я отвечу и запомню контекст.\n"
-        "Можешь отправить картинку — я её опишу.\n\n"
-        "📋 Команды:\n"
-        "/clear — очистить историю разговора\n"
-        "/profile — посмотреть мой профиль о тебе\n"
-        "/stats — статистика использования\n"
-        "/help — эта справка"
+        "🤖 Персональный ИИ-ассистент\n\n"
+        "💬 Просто пиши — я отвечу и запомню контекст\n"
+        "🎤 Отправь голосовое — я расшифрую\n"
+        "🖼️ Отправь картинку — я опишу\n\n"
+        "⏰ Напоминания:\n"
+        "  Напиши: «напомни через 30 минут позвонить»\n"
+        "  /reminders — список напоминаний\n"
+        "  /cancel N — отменить напоминание\n\n"
+        "📝 Заметки:\n"
+        "  Напиши: «запомни: пароль — abc123»\n"
+        "  /notes — все заметки\n"
+        "  /delnote N — удалить заметку\n\n"
+        "🔍 /search запрос — поиск в интернете\n\n"
+        "📋 /profile — что я о тебе знаю\n"
+        "🗑️ /clear — очистить историю\n"
+        "📊 /stats — статистика"
     )
 
 
@@ -79,50 +93,128 @@ async def cmd_help(message: Message):
 async def cmd_clear(message: Message):
     if not is_allowed(message.from_user.id):
         return
-
     memory.clear_history(message.from_user.id)
-    await message.answer("🗑️ История разговора очищена. Память профиля сохранена.")
+    await message.answer("🗑️ История очищена. Заметки и напоминания сохранены.")
 
 
 @router.message(Command("profile"))
 async def cmd_profile(message: Message):
     if not is_allowed(message.from_user.id):
         return
-
     profile = memory.get_profile(message.from_user.id)
     if profile:
-        await message.answer(f"📋 Твой профиль:\n\n{profile}")
+        await message.answer(f"📋 Что я о тебе знаю:\n\n{profile}")
     else:
-        await message.answer("📋 Профиль пока пуст. Пообщайся со мной — я соберу информацию!")
+        await message.answer("📋 Пока ничего не знаю. Пообщаемся!")
 
 
 @router.message(Command("stats"))
 async def cmd_stats(message: Message):
     if not is_allowed(message.from_user.id):
         return
-
     stats = memory.get_stats(message.from_user.id)
     await message.answer(
         f"📊 Статистика:\n\n"
         f"💬 Сообщений: {stats['message_count']}\n"
+        f"📝 Заметок: {stats['note_count']}\n"
+        f"⏰ Активных напоминаний: {stats['active_reminders']}\n"
         f"📅 Первое сообщение: {stats['first_message']}\n"
         f"🧠 Модель: {Config.LLM_MODEL}"
     )
 
 
-async def _download_telegram_file(file_path: str) -> bytes:
-    """Download a file from Telegram API, using fallback IP if needed."""
-    download_url = f"https://api.telegram.org/file/bot{Config.BOT_TOKEN}/{file_path}"
+# ── Reminders ───────────────────────────────────────────────
 
-    async with httpx.AsyncClient(timeout=30) as client:
-        resp = await client.get(download_url)
-        resp.raise_for_status()
-        return resp.content
+@router.message(Command("reminders"))
+async def cmd_reminders(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    reminders = memory.get_user_reminders(message.from_user.id)
+    if not reminders:
+        await message.answer("⏰ Нет активных напоминаний.")
+        return
 
+    text = "⏰ Напоминания:\n\n"
+    for r in reminders:
+        when = datetime.fromtimestamp(r["remind_at"]).strftime("%d.%m %H:%M")
+        text += f"  {r['id']}. {when} — {r['text']}\n"
+    text += "\n/cancel N — отменить"
+    await message.answer(text)
+
+
+@router.message(Command("cancel"))
+async def cmd_cancel_reminder(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    try:
+        reminder_id = int(message.text.split()[1])
+    except (IndexError, ValueError):
+        await message.answer("Используй: /cancel N (где N — номер напоминания)")
+        return
+
+    if memory.cancel_reminder(reminder_id, message.from_user.id):
+        await message.answer("✅ Напоминание отменено.")
+    else:
+        await message.answer("❌ Напоминание не найдено.")
+
+
+# ── Notes ───────────────────────────────────────────────────
+
+@router.message(Command("notes"))
+async def cmd_notes(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    notes = memory.get_notes(message.from_user.id)
+    if not notes:
+        await message.answer("📝 Нет заметок. Напиши «запомни: ...» чтобы создать.")
+        return
+
+    text = "📝 Заметки:\n\n"
+    for n in notes:
+        when = datetime.fromtimestamp(n["created_at"]).strftime("%d.%m")
+        title = n["title"] or "Без заголовка"
+        content_preview = n["content"][:60] + ("..." if len(n["content"]) > 60 else "")
+        text += f"  {n['id']}. [{when}] {title}\n     {content_preview}\n"
+    text += "\n/delnote N — удалить"
+    await message.answer(text)
+
+
+@router.message(Command("delnote"))
+async def cmd_delete_note(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    try:
+        note_id = int(message.text.split()[1])
+    except (IndexError, ValueError):
+        await message.answer("Используй: /delnote N (где N — номер заметки)")
+        return
+
+    if memory.delete_note(note_id, message.from_user.id):
+        await message.answer("✅ Заметка удалена.")
+    else:
+        await message.answer("❌ Заметка не найдена.")
+
+
+# ── Search ──────────────────────────────────────────────────
+
+@router.message(Command("search"))
+async def cmd_search(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    query = message.text.replace("/search", "", 1).strip()
+    if not query:
+        await message.answer("Используй: /search запрос")
+        return
+
+    await message.chat.do("typing")
+    result = await search_and_summarize(query, llm)
+    await _send_long_message(message, result)
+
+
+# ── Photo Handler ───────────────────────────────────────────
 
 @router.message(F.photo)
 async def handle_photo(message: Message):
-    """Handle photo messages — analyze with vision model."""
     if not is_allowed(message.from_user.id):
         return
 
@@ -132,81 +224,137 @@ async def handle_photo(message: Message):
     await message.chat.do("typing")
 
     try:
-        # Get the largest photo size
         photo = message.photo[-1]
         file_info = await message.bot.get_file(photo.file_id)
-
-        # Download and convert to base64 data URL
         file_data = await _download_telegram_file(file_info.file_path)
         b64 = base64.b64encode(file_data).decode()
         image_url = f"data:image/jpeg;base64,{b64}"
 
-        # Get context
         history = memory.get_history(user_id)
         profile = memory.get_profile(user_id)
-
-        # Analyze image
         response = await llm.analyze_image(image_url, prompt, history, profile)
 
-        # Save to memory
         memory.add_message(user_id, "user", f"[изображение] {prompt}")
         memory.add_message(user_id, "assistant", response)
 
         await _send_long_message(message, response)
-
     except Exception as e:
-        logger.error(f"Photo handling error: {e}")
-        await message.answer(f"❌ Не удалось обработать изображение: {str(e)[:100]}")
+        logger.error(f"Photo error: {e}")
+        await message.answer(f"❌ Ошибка: {str(e)[:100]}")
 
+
+# ── Voice/Audio Handler ────────────────────────────────────
 
 @router.message(F.voice | F.audio)
 async def handle_voice(message: Message):
-    """Handle voice/audio messages — inform user text-only for now."""
     if not is_allowed(message.from_user.id):
         return
 
-    await message.answer(
-        "🎤 Пока не умею обрабатывать голосовые сообщения. "
-        "Напиши текстом, пожалуйста!"
-    )
+    user_id = message.from_user.id
+    await message.chat.do("typing")
+    await message.answer("🎤 Обрабатываю голосовое...")
 
+    try:
+        # Get file
+        if message.voice:
+            file_info = await message.bot.get_file(message.voice.file_id)
+        else:
+            file_info = await message.bot.get_file(message.audio.file_id)
+
+        # Download audio
+        audio_data = await _download_telegram_file(file_info.file_path)
+
+        # Transcribe
+        transcription = await llm.transcribe_audio(audio_data)
+
+        if transcription.startswith("❌"):
+            await message.answer(transcription)
+            return
+
+        # Summarize key points
+        summary = await llm.summarize_text(transcription, "Выдели главное из этого текста")
+
+        result = f"🎤 Транскрипция:\n\n{transcription}\n\n📌 Главное:\n{summary}"
+
+        memory.add_message(user_id, "user", f"[голосовое] {transcription}")
+        memory.add_message(user_id, "assistant", summary)
+
+        await _send_long_message(message, result)
+    except Exception as e:
+        logger.error(f"Voice error: {e}")
+        await message.answer(f"❌ Ошибка обработки: {str(e)[:100]}")
+
+
+# ── Text Handler (main chat) ───────────────────────────────
 
 @router.message(F.text)
 async def handle_text(message: Message):
-    """Handle text messages — main chat handler."""
     if not is_allowed(message.from_user.id):
         return
 
     user_id = message.from_user.id
     user_text = message.text
 
-    # Show typing indicator
+    # Skip commands already handled
+    if user_text.startswith("/") and any(
+        user_text.split()[0] == f"/{cmd}"
+        for cmd in ["start", "help", "clear", "profile", "stats", "reminders", "cancel", "notes", "delnote", "search"]
+    ):
+        return
+
     await message.chat.do("typing")
 
-    # Get context
+    # Check if it's a reminder request
+    reminder = await llm.extract_reminder(user_text)
+    if reminder:
+        minutes = reminder["minutes"]
+        remind_text = reminder["text"]
+        remind_at = time.time() + minutes * 60
+        reminder_id = memory.add_reminder(user_id, remind_text, remind_at)
+        when = datetime.fromtimestamp(remind_at).strftime("%d.%m.%Y %H:%M")
+        await message.answer(f"⏰ Напомню {when}:\n{remind_text}\n\n(/{reminder_id}, /cancel {reminder_id} — отменить)")
+        memory.add_message(user_id, "user", user_text)
+        memory.add_message(user_id, "assistant", f"⏰ Напоминание установлено на {when}")
+        return
+
+    # Check if it's a note request
+    note_info = await llm.extract_note(user_text)
+    if note_info:
+        title = note_info.get("title", "Заметка")
+        content = note_info["content"]
+        note_id = memory.add_note(user_id, title, content)
+        await message.answer(f"📝 Сохранено:\n\n{title}\n{content}\n\n(#{note_id})")
+        memory.add_message(user_id, "user", user_text)
+        memory.add_message(user_id, "assistant", f"📝 Заметка сохранена: {title}")
+        return
+
+    # Regular chat
     history = memory.get_history(user_id)
     profile = memory.get_profile(user_id)
-
-    # Save user message
     memory.add_message(user_id, "user", user_text)
 
-    # Call LLM with full history
     response = await llm.chat(history + [{"role": "user", "content": user_text}], profile)
-
-    # Save assistant response
     memory.add_message(user_id, "assistant", response)
 
-    # Periodically update user profile
+    # Profile update
     stats = memory.get_stats(user_id)
     if stats["message_count"] % PROFILE_UPDATE_INTERVAL == 0 and stats["message_count"] > 0:
         asyncio.create_task(_update_profile_background(user_id))
 
-    # Send response
     await _send_long_message(message, response)
 
 
+# ── Helpers ─────────────────────────────────────────────────
+
+async def _download_telegram_file(file_path: str) -> bytes:
+    download_url = f"https://api.telegram.org/file/bot{Config.BOT_TOKEN}/{file_path}"
+    async with httpx.AsyncClient(timeout=30) as client:
+        resp = await client.get(download_url)
+        resp.raise_for_status()
+        return resp.content
+
+
 async def _update_profile_background(user_id: int):
-    """Update user profile in background."""
     try:
         history = memory.get_history(user_id, limit=30)
         current_profile = memory.get_profile(user_id)
@@ -214,35 +362,26 @@ async def _update_profile_background(user_id: int):
         memory.update_profile(user_id, new_profile)
         logger.info(f"Profile updated for user {user_id}")
     except Exception as e:
-        logger.error(f"Background profile update failed: {e}")
+        logger.error(f"Profile update failed: {e}")
 
 
 async def _send_long_message(message: Message, text: str):
-    """Send a message, splitting into chunks if it exceeds Telegram's limit."""
     MAX_LENGTH = 4096
 
     if len(text) <= MAX_LENGTH:
         await message.answer(text)
         return
 
-    # Split by paragraphs, then by sentences if a single paragraph is too long
     chunks = []
     current_chunk = ""
 
     for paragraph in text.split("\n"):
-        # If a single paragraph is too long, split by sentences
         if len(paragraph) > MAX_LENGTH:
             if current_chunk:
                 chunks.append(current_chunk)
                 current_chunk = ""
-            sentence_buffer = ""
-            for char in paragraph:
-                sentence_buffer += char
-                if len(sentence_buffer) >= MAX_LENGTH:
-                    chunks.append(sentence_buffer)
-                    sentence_buffer = ""
-            if sentence_buffer:
-                current_chunk = sentence_buffer
+            for i in range(0, len(paragraph), MAX_LENGTH):
+                chunks.append(paragraph[i:i + MAX_LENGTH])
         elif len(current_chunk) + len(paragraph) + 1 > MAX_LENGTH:
             chunks.append(current_chunk)
             current_chunk = paragraph
@@ -256,7 +395,7 @@ async def _send_long_message(message: Message, text: str):
         try:
             await message.answer(chunk)
         except Exception as e:
-            logger.error(f"Failed to send chunk: {e}")
+            logger.error(f"Send chunk error: {e}")
             break
         if len(chunks) > 1:
             await asyncio.sleep(0.2)
