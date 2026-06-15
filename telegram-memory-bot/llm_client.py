@@ -155,6 +155,92 @@ class LLMClient:
             logger.error(f"Vision error: {e}")
             return f"❌ Ошибка анализа изображения: {str(e)[:200]}"
 
+    async def extract_expense(self, text: str) -> Optional[dict]:
+        """Extract expense data from user text using LLM.
+
+        Returns dict with 'amount', 'currency', 'category', 'description' or None.
+        """
+        prompt = (
+            "Проанализируй сообщение. Если это сообщение о расходе/трате — извлеки данные.\n"
+            "Если НЕ о расходе — верни JSON: {\"expense\": false}\n"
+            "Если о расходе — верни JSON:\n"
+            "{\"expense\": true, \"amount\": ЧИСЛО, \"currency\": \"RUB\", \"category\": \"КАТЕГОРИЯ\", \"description\": \"ОПИСАНИЕ\"}\n\n"
+            "Категории: Продукты, Ресторан, Транспорт, Топливо, Аптека, Одежда, \n"
+            "Жильё, Связь, Развлечения, Подписки, Здоровье, Образование, Подарки, Другое\n\n"
+            "Примеры:\n"
+            "  'потратил 500 на продукты' -> {expense:true, amount:500, currency:'RUB', category:'Продукты', description:'Продукты'}\n"
+            "  'заплатил 2000 за такси' -> {expense:true, amount:2000, currency:'RUB', category:'Транспорт', description:'Такси'}\n"
+            "  'купил билеты за 3000' -> {expense:true, amount:3000, currency:'RUB', category:'Развлечения', description:'Билеты'}\n"
+            "  'какая погода?' -> {expense:false}\n\n"
+            f"Сообщение: {text}"
+        )
+        try:
+            response = await self.client.chat.completions.create(
+                model=Config.LLM_MODEL,
+                messages=[
+                    {"role": "system", "content": "Ты парсер расходов. Отвечай ТОЛЬКО JSON."},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=200,
+                temperature=0.1,
+            )
+            import json
+            content = response.choices[0].message.content or ""
+            content = content.strip()
+            if content.startswith("```"):
+                content = content.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+            result = json.loads(content)
+            if result.get("expense") and result.get("amount"):
+                return result
+            return None
+        except Exception as e:
+            logger.debug(f"Expense extraction failed: {e}")
+            return None
+
+    async def extract_receipt(self, image_url: str) -> Optional[dict]:
+        """Extract receipt data from an image using vision model.
+
+        Returns dict with 'amount', 'currency', 'category', 'description' or None.
+        """
+        prompt = (
+            "Проанализируй это изображение. Если это чек/квитанция/счёт — извлеки данные.\n"
+            "Если НЕ чек — верни JSON: {\"receipt\": false}\n"
+            "Если чек — верни JSON:\n"
+            "{\"receipt\": true, \"amount\": ЧИСЛО, \"currency\": \"RUB\", \"category\": \"КАТЕГОРИЯ\", \"description\": \"КРАТКОЕ ОПИСАНИЕ\"}\n\n"
+            "Категории: Продукты, Ресторан, Транспорт, Топливо, Аптека, Одежда, \n"
+            "Жильё, Связь, Развлечения, Подписки, Здоровье, Образование, Подарки, Другое\n\n"
+            "amount — итоговая сумма чека (число). Если несколько сумм — бери итоговую.\n"
+            "description — что куплено, кратко (до 100 символов)"
+        )
+        try:
+            response = await self.client.chat.completions.create(
+                model=Config.VISION_MODEL,
+                messages=[
+                    {"role": "system", "content": "Ты парсер чеков. Отвечай ТОЛЬКО JSON."},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {"type": "image_url", "image_url": {"url": image_url}},
+                        ],
+                    },
+                ],
+                max_tokens=300,
+                temperature=0.1,
+            )
+            import json
+            content = response.choices[0].message.content or ""
+            content = content.strip()
+            if content.startswith("```"):
+                content = content.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+            result = json.loads(content)
+            if result.get("receipt") and result.get("amount"):
+                return result
+            return None
+        except Exception as e:
+            logger.debug(f"Receipt extraction failed: {e}")
+            return None
+
     async def transcribe_audio(self, audio_data: bytes) -> str:
         """Transcribe audio using Whisper via VseGPT."""
         temp_path = None

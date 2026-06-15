@@ -58,10 +58,12 @@ async def cmd_start(message: Message):
         "💬 Общаться и помнить контекст\n"
         "🎤 Расшифровывать голосовые сообщения\n"
         "🖼️ Анализировать картинки\n"
+        "🧾 Распознавать чеки и вести бухгалтерию\n"
         "⏰ Напоминать о событиях\n"
         "🔍 Искать в интернете\n"
         "📝 Делать заметки\n\n"
-        "Просто напиши «напомни через 30 минут позвонить» или «запомни: пароль от wifi — abc123»\n\n"
+        "Просто напиши «напомни через 30 минут позвонить» или «запомни: пароль от wifi — abc123»\n"
+        "Отправь фото чека с подписью «чек» — я занесу в расходы\n\n"
         "📋 /help — все команды"
     )
 
@@ -75,7 +77,8 @@ async def cmd_help(message: Message):
         "🤖 Персональный ИИ-ассистент\n\n"
         "💬 Просто пиши — я отвечу и запомню контекст\n"
         "🎤 Отправь голосовое — я расшифрую\n"
-        "🖼️ Отправь картинку — я опишу\n\n"
+        "🖼️ Отправь картинку — я опишу\n"
+        "🧾 Отправь фото чека с подписью «чек» — занесу в расходы\n\n"
         "⏰ Напоминания:\n"
         "  Напиши: «напомни через 30 минут позвонить»\n"
         "  /reminders — список напоминаний\n"
@@ -84,6 +87,12 @@ async def cmd_help(message: Message):
         "  Напиши: «запомни: пароль — abc123»\n"
         "  /notes — все заметки\n"
         "  /delnote N — удалить заметку\n\n"
+        "🧾 Расходы:\n"
+        "  Фото чека с подписью «чек»\n"
+        "  Или: «потратил 500 на продукты»\n"
+        "  /expenses — последние расходы\n"
+        "  /report — отчёт за месяц\n"
+        "  /delexp N — удалить расход\n\n"
         "🔍 /search запрос — поиск в интернете\n\n"
         "📋 /profile — что я о тебе знаю\n"
         "🗑️ /clear — очистить историю\n"
@@ -119,6 +128,7 @@ async def cmd_stats(message: Message):
         f"📊 Статистика:\n\n"
         f"💬 Сообщений: {stats['message_count']}\n"
         f"📝 Заметок: {stats['note_count']}\n"
+        f"🧾 Расходов: {stats['expense_count']}\n"
         f"⏰ Активных напоминаний: {stats['active_reminders']}\n"
         f"📅 Первое сообщение: {stats['first_message']}\n"
         f"🧠 Модель: {Config.LLM_MODEL}"
@@ -197,6 +207,75 @@ async def cmd_delete_note(message: Message):
         await message.answer("❌ Заметка не найдена.")
 
 
+# ── Expenses ──────────────────────────────────────────────
+
+@router.message(Command("expenses"))
+async def cmd_expenses(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    expenses = memory.get_expenses(message.from_user.id)
+    if not expenses:
+        await message.answer("🧾 Нет расходов. Отправь фото чека с подписью «чек» или напиши «потратил 500 на продукты».")
+        return
+
+    text = "🧾 Последние расходы:\n\n"
+    for e in expenses:
+        when = datetime.fromtimestamp(e["created_at"]).strftime("%d.%m")
+        amount = e["amount"]
+        currency = e.get("currency", "RUB")
+        cat = e["category"]
+        desc = e["description"]
+        text += f"  {e['id']}. [{when}] {amount:.0f}{currency} | {cat} | {desc}\n"
+    text += "\n/delexp N — удалить"
+    await message.answer(text)
+
+
+@router.message(Command("delexp"))
+async def cmd_delete_expense(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+    try:
+        expense_id = int(message.text.split()[1])
+    except (IndexError, ValueError):
+        await message.answer("Используй: /delexp N (где N — номер расхода)")
+        return
+
+    if memory.delete_expense(expense_id, message.from_user.id):
+        await message.answer("✅ Расход удалён.")
+    else:
+        await message.answer("❌ Расход не найден.")
+
+
+@router.message(Command("report"))
+async def cmd_report(message: Message):
+    if not is_allowed(message.from_user.id):
+        return
+
+    now = time.time()
+    # Current month
+    today = datetime.now()
+    month_start = datetime(today.year, today.month, 1).timestamp()
+
+    stats = memory.get_expense_stats(message.from_user.id, month_start, now)
+
+    if stats["count"] == 0:
+        await message.answer("🧾 За этот месяц расходов нет.")
+        return
+
+    month_name = today.strftime("%B %Y")
+    text = f"🧾 Отчёт за {month_name}:\n\n"
+    text += f"💰 Итого: {stats['total']:.0f} RUB\n"
+    text += f"📋 Записей: {stats['count']}\n\n"
+
+    if stats["by_category"]:
+        text += "По категориям:\n"
+        for cat in stats["by_category"]:
+            pct = (cat["total"] / stats["total"] * 100) if stats["total"] > 0 else 0
+            text += f"  {cat['category']}: {cat['total']:.0f} RUB ({pct:.0f}%)\n"
+
+    await message.answer(text)
+
+
 # ── Search ──────────────────────────────────────────────────
 
 @router.message(Command("search"))
@@ -221,7 +300,7 @@ async def handle_photo(message: Message):
         return
 
     user_id = message.from_user.id
-    prompt = message.caption or "Опиши что на этой картинке."
+    caption = message.caption or ""
 
     await message.chat.do("typing")
 
@@ -237,7 +316,47 @@ async def handle_photo(message: Message):
         b64 = base64.b64encode(file_data).decode()
         image_url = f"data:image/jpeg;base64,{b64}"
 
-        # Don't send history with images — saves tokens
+        # Check if this is a receipt (caption contains "чек", "receipt", etc.)
+        is_receipt = any(word in caption.lower() for word in ["чек", "receipt", "счёт", "счет", "квитанция"])
+
+        if is_receipt:
+            await message.answer("🧾 Распознаю чек...")
+            receipt_data = await llm.extract_receipt(image_url)
+
+            if receipt_data and receipt_data.get("receipt"):
+                amount = receipt_data.get("amount", 0)
+                currency = receipt_data.get("currency", "RUB")
+                category = receipt_data.get("category", "Другое")
+                description = receipt_data.get("description", "")
+
+                expense_id = memory.add_expense(
+                    user_id, amount, currency, category, description, source="receipt"
+                )
+
+                result = (
+                    f"🧾 Чек распознан и сохранён:\n\n"
+                    f"💰 Сумма: {amount:.0f} {currency}\n"
+                    f"📁 Категория: {category}\n"
+                    f"📝 Описание: {description}\n\n"
+                    f"(#{expense_id}, /delexp {expense_id} — удалить)"
+                )
+
+                memory.add_message(user_id, "user", f"[чек] {amount:.0f}{currency} — {category}: {description}")
+                memory.add_message(user_id, "assistant", f"🧾 Чек сохранён: {amount:.0f}{currency}")
+
+                await message.answer(result)
+                return
+            else:
+                # Not a receipt or failed to parse — describe normally
+                prompt = caption or "Опиши что на этой картинке."
+                response = await llm.analyze_image(image_url, prompt)
+                memory.add_message(user_id, "user", f"[изображение] {prompt}")
+                memory.add_message(user_id, "assistant", response)
+                await message.answer(f"⚠️ Не удалось распознать чек. Описание:\n\n{response}")
+                return
+
+        # Regular photo description
+        prompt = caption or "Опиши что на этой картинке."
         response = await llm.analyze_image(image_url, prompt)
 
         memory.add_message(user_id, "user", f"[изображение] {prompt}")
@@ -304,11 +423,30 @@ async def handle_text(message: Message):
     # Skip commands already handled
     if user_text.startswith("/") and any(
         user_text.split()[0] == f"/{cmd}"
-        for cmd in ["start", "help", "clear", "profile", "stats", "reminders", "cancel", "notes", "delnote", "search"]
+        for cmd in ["start", "help", "clear", "profile", "stats", "reminders", "cancel", "notes", "delnote", "search", "expenses", "delexp", "report"]
     ):
         return
 
     await message.chat.do("typing")
+
+    # Check if it's an expense entry ("потратил 500 на продукты")
+    expense_info = await llm.extract_expense(user_text)
+    if expense_info:
+        amount = expense_info.get("amount", 0)
+        currency = expense_info.get("currency", "RUB")
+        category = expense_info.get("category", "Другое")
+        description = expense_info.get("description", "")
+        expense_id = memory.add_expense(user_id, amount, currency, category, description, source="text")
+        await message.answer(
+            f"🧾 Расход записан:\n\n"
+            f"💰 Сумма: {amount:.0f} {currency}\n"
+            f"📁 Категория: {category}\n"
+            f"📝 Описание: {description}\n\n"
+            f"(#{expense_id}, /delexp {expense_id} — удалить)"
+        )
+        memory.add_message(user_id, "user", user_text)
+        memory.add_message(user_id, "assistant", f"🧾 Расход записан: {amount:.0f}{currency} — {category}")
+        return
 
     # Check if it's a reminder request
     reminder = await llm.extract_reminder(user_text)

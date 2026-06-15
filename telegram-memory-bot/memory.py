@@ -89,6 +89,22 @@ class Memory:
             CREATE INDEX IF NOT EXISTS idx_notes_user
             ON notes(user_id, created_at DESC)
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS expenses (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                amount REAL NOT NULL,
+                currency TEXT NOT NULL DEFAULT 'RUB',
+                category TEXT NOT NULL DEFAULT 'Другое',
+                description TEXT NOT NULL DEFAULT '',
+                source TEXT NOT NULL DEFAULT 'manual',
+                created_at REAL NOT NULL
+            )
+        """)
+        conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_expenses_user
+            ON expenses(user_id, created_at DESC)
+        """)
         conn.commit()
         self._close_conn(conn)
 
@@ -254,6 +270,69 @@ class Memory:
         conn.commit()
         self._close_conn(conn)
 
+    # ── Expenses ────────────────────────────────────────────
+
+    def add_expense(self, user_id: int, amount: float, currency: str, category: str, description: str, source: str = "manual") -> int:
+        conn = self._get_conn()
+        cursor = conn.execute(
+            "INSERT INTO expenses (user_id, amount, currency, category, description, source, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (user_id, amount, currency, category, description, source, time.time()),
+        )
+        expense_id = cursor.lastrowid
+        conn.commit()
+        self._close_conn(conn)
+        return expense_id
+
+    def get_expenses(self, user_id: int, limit: int = 20) -> list[dict]:
+        conn = self._get_conn()
+        rows = conn.execute(
+            "SELECT id, amount, currency, category, description, source, created_at FROM expenses WHERE user_id = ? ORDER BY created_at DESC LIMIT ?",
+            (user_id, limit),
+        ).fetchall()
+        self._close_conn(conn)
+        return [dict(r) for r in reversed(rows)]
+
+    def get_expenses_by_period(self, user_id: int, from_ts: float, to_ts: float) -> list[dict]:
+        conn = self._get_conn()
+        rows = conn.execute(
+            "SELECT id, amount, currency, category, description, source, created_at FROM expenses WHERE user_id = ? AND created_at >= ? AND created_at <= ? ORDER BY created_at DESC",
+            (user_id, from_ts, to_ts),
+        ).fetchall()
+        self._close_conn(conn)
+        return [dict(r) for r in rows]
+
+    def delete_expense(self, expense_id: int, user_id: int) -> bool:
+        conn = self._get_conn()
+        cursor = conn.execute(
+            "DELETE FROM expenses WHERE id = ? AND user_id = ?",
+            (expense_id, user_id),
+        )
+        affected = cursor.rowcount
+        conn.commit()
+        self._close_conn(conn)
+        return affected > 0
+
+    def get_expense_stats(self, user_id: int, from_ts: float, to_ts: float) -> dict:
+        conn = self._get_conn()
+        total = conn.execute(
+            "SELECT COALESCE(SUM(amount), 0) as total FROM expenses WHERE user_id = ? AND created_at >= ? AND created_at <= ?",
+            (user_id, from_ts, to_ts),
+        ).fetchone()["total"]
+        count = conn.execute(
+            "SELECT COUNT(*) as c FROM expenses WHERE user_id = ? AND created_at >= ? AND created_at <= ?",
+            (user_id, from_ts, to_ts),
+        ).fetchone()["c"]
+        by_category = conn.execute(
+            "SELECT category, SUM(amount) as total FROM expenses WHERE user_id = ? AND created_at >= ? AND created_at <= ? GROUP BY category ORDER BY total DESC",
+            (user_id, from_ts, to_ts),
+        ).fetchall()
+        self._close_conn(conn)
+        return {
+            "total": total,
+            "count": count,
+            "by_category": [dict(r) for r in by_category],
+        }
+
     # ── Stats ────────────────────────────────────────────────
 
     def get_stats(self, user_id: int) -> dict:
@@ -270,12 +349,16 @@ class Memory:
         active_reminders = conn.execute(
             "SELECT COUNT(*) as c FROM reminders WHERE user_id = ? AND done = 0", (user_id,)
         ).fetchone()["c"]
+        expense_count = conn.execute(
+            "SELECT COUNT(*) as c FROM expenses WHERE user_id = ?", (user_id,)
+        ).fetchone()["c"]
         self._close_conn(conn)
         return {
             "message_count": msg_count,
             "first_message": time.strftime("%Y-%m-%d", time.localtime(first_msg)) if first_msg else "never",
             "note_count": note_count,
             "active_reminders": active_reminders,
+            "expense_count": expense_count,
         }
 
     # ── Cleanup ──────────────────────────────────────────────
